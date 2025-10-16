@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-login',
@@ -27,6 +28,39 @@ export class LoginComponent {
       password: this.password
     };
 
-    
+    this.authService.login(credentials).subscribe({
+      next: (response) => {
+        console.log('Respuesta del servidor:', response);
+        localStorage.setItem('token', response.token)
+        localStorage.setItem('username', response.username)
+        localStorage.setItem('rol', response.rol)
+        localStorage.setItem('expirateAt', response.expirateAt.toString())
+        localStorage.setItem('usuarioId', response.usuarioId.toString())
+
+        const rol = response.rol
+
+        if (rol.includes('ROLE_ADMIN')) {
+          this.toastr.success('Bienvenido Administrador', 'Éxito')
+          this.router.navigate(['/'])
+        } else if (rol.includes('ROLE_CLIENTE')) {
+          this.toastr.success('Bienvenido Cliente', 'Éxito')
+          this.router.navigate(['/'])
+        } else if (rol.includes('ROLE_VETERINARIO')) {
+          this.toastr.success('Bienvenido Veterinario', 'Éxito')
+          this.router.navigate(['/'])
+        } else {
+          this.toastr.warning('Ingresa correctamente tus credenciales', 'ROL no reconocido')
+        }
+      },
+      error: (error) => {
+        console.error('Error al iniciar sesión', error);
+        Swal.fire({
+          title: "ERROR AL INICIAR SESION",
+          text: "CREDENCIALES INCORRECTAS",
+          icon: "error",
+          confirmButtonText: "Enviar"
+        })
+      } 
+    })
   }
 }
