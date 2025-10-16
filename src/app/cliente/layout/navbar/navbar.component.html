@@ -1,0 +1,29 @@
+<nav class="navbar">
+    <!-- logo -->
+    <div class="nav-logo">
+        <a routerLink="/">VetMarket</a>
+    </div>
+
+    <!-- menu -->
+    <div class="menu">
+        <ul class="nav-links">
+            <li><a routerLink="/">Inicio</a></li>
+            <li><a routerLink="/cita">Citas</a></li>
+            <li><a routerLink="/carrito">Carrito de Compra</a></li>
+        </ul>
+    </div>
+
+     <div class="nav-actions">
+        <!-- Iniciar/Cerrar sesión -->
+        <ng-container *ngIf="!isAuthenticated(); else logeado">
+        <button routerLink="/login" class="btn-login">
+            <i class="bi bi-person"></i>
+        </button>
+        </ng-container>
+        <ng-template #logeado>
+        <button (click)="logout()" class="btn-logout">
+            <i class="bi bi-box-arrow-right"></i>
+        </button>
+        </ng-template>
+     </div>
+</nav>
