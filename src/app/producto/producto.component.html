@@ -1,0 +1,43 @@
+<app-navbar></app-navbar>
+<main class="main-content">
+  <div class="image-banner-container"></div>
+  <section class="products-section">
+    <h3>Productos</h3>
+    <hr style="width: 55%; border: 1px solid #000000;">
+
+    <div class="card_viewholder">
+      <mat-card appearance="outlined"
+                *ngFor="let producto of listaProductos()
+                | slice: lowIndex: highIndex">
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image"></div>
+          <mat-card-title>{{ producto.nombre }}</mat-card-title>
+          <mat-card-subtitle>{{ producto.username }}</mat-card-subtitle>
+          <mat-card-subtitle>S/{{ producto.precio }}</mat-card-subtitle>
+        </mat-card-header>
+        @if (producto.imagen) {
+          <img mat-card-image [src]="producto.imagen" alt="Product Image">
+        } @else {
+          <img
+            src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Foperaparallele.org%2Fwp-content%2Fuploads%2F2023%2F09%2FPlaceholder_Image.png&f=1&nofb=1&ipt=2348c8b3caeaf10947e1e8bdc358cb05407520976ae4ad53489a48a1fcce992c"
+            height="200px" width="400px">
+        }
+        <mat-card-content>
+          <p>
+            {{ producto.descripcion }}
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button>Agregar al Carrito</button>
+          <button mat-button>Ver Detalles</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <mat-paginator
+      [length]="listaProductos().length"
+      [pageSize]="pageSize"
+      (page)="getPaginatorData($event)"
+    ></mat-paginator>
+  </section>
+</main>
+<app-footer></app-footer>
