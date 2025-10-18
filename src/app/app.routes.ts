@@ -6,5 +6,10 @@ export const routes: Routes = [
     // Ruta inicial 
     { path: '', component: HomeComponent },
     // Auth
-    { path: 'login', component: LoginComponent }
+    { path: 'login', component: LoginComponent },
+    // Agendar Cita
+    {
+        path:'agendarCita',
+        loadComponent:()=>import('./paginas/clientes/agendar-cita/agendar-cita.component')
+    }
 ];
