@@ -29,7 +29,7 @@
     text-shadow: 0 1px 5px rgba(0, 0, 0, 0.7);
   }
 
-  .btn-primary {
+  .btn-primary-servicio {
     background-color: #4caf50;
     color: white;
     border: none;
@@ -47,4 +47,29 @@
       box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
     }
   }
+
+  .btn-primary-producto {
+    background-color: #3A3AE0;
+    color: white;
+    border: none;
+    padding: 1rem 2.5rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+
+    &:hover {
+      background-color: #25324D;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+    }
+  }
+}
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
 }
