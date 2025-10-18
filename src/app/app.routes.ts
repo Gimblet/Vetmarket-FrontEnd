@@ -18,5 +18,9 @@ export const routes: Routes = [
   {
     path: 'producto',
     component: ProductoComponent
+  },
+  {
+    path: 'agendarCita',
+    loadComponent: () => import('./paginas/clientes/agendar-cita/agendar-cita.component')
   }
 ];

@@ -1,0 +1,70 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Agendar Cita</h2>
+  
+  <div class="row">
+    
+    <div class="col-md-7 mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">Datos del Cliente</h5>
+          <p class="card-text"><strong>ID Usuario:</strong> {{ idUsuario }}</p>
+          <p class="card-text" *ngIf="usuario"><strong>Nombre:</strong> {{ usuario.nombre }}</p>
+          </div>
+      </div>
+    </div>
+    
+    <div class="col-md-5 mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">Detalles del Servicio</h5>
+          <p class="card-text"><strong>ID Servicio:</strong> {{ idServicio }}</p>
+          </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="mb-4">
+    <button class="btn btn-outline-primary" (click)="/* Lógica de selección */">
+      Seleccionar Mascota Existente (Opcional)
+    </button>
+  </div>
+  
+  <div class="card p-4">
+    <h4 class="mb-3">Datos de la Mascota y Fecha de Cita</h4>
+    
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label for="mascotaNombre" class="form-label">Nombre de la Mascota:</label>
+            <input type="text" class="form-control" id="mascotaNombre" [(ngModel)]="mascotaForm.nombre" name="mascotaNombre" required>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label for="mascotaEspecie" class="form-label">Especie:</label>
+            <input type="text" class="form-control" id="mascotaEspecie" [(ngModel)]="mascotaForm.especie" name="mascotaEspecie">
+        </div>
+        <div class="col-md-4 mb-3">
+            <label for="mascotaEdad" class="form-label">Edad (años):</label>
+            <input type="number" class="form-control" id="mascotaEdad" [(ngModel)]="mascotaForm.edad" name="mascotaEdad">
+        </div>
+        <div class="col-md-4 mb-3">
+            <label for="mascotaPeso" class="form-label">Peso (kg):</label>
+            <input type="number" class="form-control" id="mascotaPeso" [(ngModel)]="mascotaForm.peso" name="mascotaPeso">
+        </div>
+        
+        <div class="col-md-4 mb-3">
+            <label for="fechaCita" class="form-label">Fecha de Cita:</label>
+            <input type="date" class="form-control" id="fechaCita" [min]="minDate" [(ngModel)]="fechaCitaString" name="fechaCitaString" required>
+        </div>
+
+    </div>
+
+    <div class="d-grid gap-2 mt-3">
+      <button class="btn btn-success btn-lg" 
+              [disabled]="!fechaCitaString || !mascotaForm.nombre"
+              (click)="agendarCita()">
+        Agendar Cita
+      </button>
+    </div>
+
+  </div>
+</div>
