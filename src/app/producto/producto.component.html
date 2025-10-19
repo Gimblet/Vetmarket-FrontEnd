@@ -4,7 +4,6 @@
   <section class="products-section">
     <h3>Productos</h3>
     <hr style="width: 55%; border: 1px solid #000000;">
-
     <div class="card_viewholder">
       <mat-card appearance="outlined"
                 *ngFor="let producto of listaProductos()
@@ -29,7 +28,7 @@
         </mat-card-content>
         <mat-card-actions>
           <button mat-button>Agregar al Carrito</button>
-          <button mat-button>Ver Detalles</button>
+          <button mat-button [routerLink]="['/producto', producto.idProducto]">Detalles</button>
         </mat-card-actions>
       </mat-card>
     </div>

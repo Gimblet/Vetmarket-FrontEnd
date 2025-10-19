@@ -1,0 +1,49 @@
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100% ;
+  margin-top: 5rem;
+}
+
+.product-image {
+  min-width: 600px;
+  min-height: 500px;
+  max-width: 800px;
+  max-height: 800px;
+  height: 100%;
+  width: 100%;
+  object-fit: fill;
+}
+
+.product-container {
+  display: flex;
+  width: max-content;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  align-items: center;
+  gap: 5rem;
+}
+
+.details-container {
+  #vetUsername {
+    text-decoration: none;
+    color: darkblue;
+    border: none;
+    background-color: transparent;
+  }
+}
+
+.thumbnail {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+.thumbnail:hover, .thumbnail.active {
+  opacity: 1;
+}
