@@ -39,13 +39,13 @@ export class LoginComponent {
 
         const rol = response.rol
 
-        if (rol.includes('ROLE_ADMIN')) {
+        if (rol.includes('ADMIN')) {
           this.toastr.success('Bienvenido Administrador', 'Éxito')
           this.router.navigate(['/'])
-        } else if (rol.includes('ROLE_CLIENTE')) {
+        } else if (rol.includes('CLIENTE')) {
           this.toastr.success('Bienvenido Cliente', 'Éxito')
           this.router.navigate(['/'])
-        } else if (rol.includes('ROLE_VETERINARIO')) {
+        } else if (rol.includes('VETERINARIO')) {
           this.toastr.success('Bienvenido Veterinario', 'Éxito')
           this.router.navigate(['/'])
         } else {
