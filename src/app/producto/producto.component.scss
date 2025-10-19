@@ -53,3 +53,9 @@ mat-paginator {
   max-width: 1700px;
   gap: 20px;
 }
+
+.matCard-header-image {
+  background-image: url('../../assets/images/vetLogo.jpg');
+  background-size: cover;
+  background-position: center;
+}

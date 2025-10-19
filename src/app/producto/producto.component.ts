@@ -10,6 +10,7 @@ import {FooterComponent} from '../cliente/layout/footer/footer.component';
 import {NgForOf, SlicePipe} from '@angular/common';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {RouterLink} from "@angular/router";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
 
 @Component({
     selector: 'app-producto',
@@ -21,7 +22,8 @@ import {RouterLink} from "@angular/router";
         RouterLink,
         MatPaginator,
         SlicePipe,
-        NgForOf
+        NgForOf,
+        MatProgressSpinner
     ],
     templateUrl: './producto.component.html',
     styleUrl: './producto.component.scss'
