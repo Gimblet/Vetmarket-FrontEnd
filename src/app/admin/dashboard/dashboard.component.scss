@@ -1,0 +1,199 @@
+/* Layout general */
+.layout-container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Sidebar */
+.custom-sidebar {
+  width: 260px;
+  background: #ffffff;
+  padding: 20px;
+  border-right: 4px solid #51D94C;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 10px rgba(81, 217, 76, 0.3);
+}
+
+.brand-title {
+  font-weight: bold;
+  color: #28a745;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.custom-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+}
+
+.custom-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: 20px;
+  color: #000;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.custom-nav-link:hover {
+  background: #6cf967;
+  color: #fff;
+  transform: translateX(2px);
+}
+
+.custom-nav-link i {
+  font-size: 1.2rem;
+  color: #51D94C;
+  transition: color 0.3s;
+}
+
+.custom-nav-link:hover i {
+  color: #fff;
+}
+
+.custom-nav-link.active {
+  background-color: #51D94C;
+  color: #ffffff;
+}
+
+// Estilo del logo con icono
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  transition: transform 0.2s ease;
+
+  a {
+    color: #51D94C;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &:hover a,
+  &:hover .icon-logo {
+    color: #4caf50;
+  }
+}
+
+// Icono del logo
+.icon-logo {
+  font-size: 1.6rem;
+  color: #51D94C;
+  transition: color 0.3s ease, transform 0.3s ease;
+
+  &:hover {
+    transform: rotate(15deg);
+  }
+}
+
+/* Logout */
+.logout-btn {
+  margin-top: auto;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #51D94C;
+  border-radius: 20px;
+  background-color: #f0fff4;
+  color: #51D94C;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.logout-btn:hover {
+  background-color: #6cf967;
+  color: #ffffff;
+}
+
+/* Main Content */
+.custom-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Navbar */
+.custom-navbar {
+  background: #ffffff;
+  border-bottom: 2px solid #51D94C;
+  padding: 12px 20px;
+  box-shadow: 0 2px 8px rgba(81, 217, 76, 0.3);
+}
+
+.navbar-content {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+
+
+/* Usuario */
+.user-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #51D94C;
+  transition: transform 0.2s ease;
+}
+
+.user-img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 6px #51D94C;
+}
+
+/* Contenido dinámico */
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  background: linear-gradient(to bottom, #ffffff, #f0fff4);
+  padding: 20px;
+  margin: 12px;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(31, 38, 135, 0.15);
+}
+
+/* Footer */
+.custom-footer {
+  text-align: center;
+  padding: 10px;
+  background-color: #f0fff4;
+  font-size: 0.9rem;
+  border-top: 1px solid #ccc;
+  color: #aaa;
+}
+
+
+/* Scrollbar personalizado */
+.main-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.main-content::-webkit-scrollbar-track {
+  background: #e0e0e0;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+  background: linear-gradient(#51D94C, #73FF90);
+  border-radius: 4px;
+}
