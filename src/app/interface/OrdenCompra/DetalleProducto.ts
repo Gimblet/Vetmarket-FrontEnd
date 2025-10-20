@@ -1,4 +1,5 @@
-import { Producto } from "../Producto/Producto";
+
+import { Producto } from "../producto/Producto";
 import { DetalleOrden } from "./DetalleOrden";
 
 export interface DetalleProducto extends DetalleOrden {

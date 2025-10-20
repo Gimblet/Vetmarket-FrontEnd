@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Orden } from '../../../modelos/OrdenCompra/Orden';
-import { DetalleProducto } from '../../../modelos/OrdenCompra/DetalleProducto';
-import { DetalleServicio } from '../../../modelos/OrdenCompra/DetalleServicio';
+import { Orden } from '../../../interface/OrdenCompra/Orden';
+import { DetalleProducto } from '../../../interface/OrdenCompra/DetalleProducto';
+import { DetalleServicio } from '../../../interface/OrdenCompra/DetalleServicio';
 import { OrdenCompraService } from '../../../services/orden-compra.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import Swal from 'sweetalert2';
-import { DetalleOrden } from '../../../modelos/OrdenCompra/DetalleOrden';
+import { DetalleOrden } from '../../../interface/OrdenCompra/DetalleOrden';
 
 @Component({
   selector: 'app-orden-compra',
@@ -26,6 +26,8 @@ export default class OrdenCompraComponent {
 
   token: string | null = null;
 
+  cargando = false;
+
   constructor(
     private serv:OrdenCompraService,
     private route:ActivatedRoute,
@@ -37,17 +39,32 @@ export default class OrdenCompraComponent {
     this.token = this.sesion.getToken();
     this.llenar()
   }
-
-  llenar(){
-    const idUsuario = 0//this.sesion.getUsuario();
+  private validarSesion(): boolean {
+    this.token = this.sesion.getToken();
+    const idUsuario = Number(this.sesion.getUserId());
     
-    if (this.token === null || idUsuario===0) {
+    if (!this.token || idUsuario === 0) {
       this.router.navigate(['/login']);
-      return;
+      return false;
     }
-    this.serv.listarOrdenesPorUsuario(this.token, idUsuario).subscribe(data=>{
-      this.ordenes=data
-    })
+    return true;
+  }
+
+  llenar() {
+    if (!this.validarSesion()) return;
+    const idUsuario = Number(this.sesion.getUserId());
+    this.cargando = true;
+    this.serv.listarOrdenesPorUsuario(this.token!, idUsuario).subscribe({
+      next: data => { 
+        this.ordenes = data;
+        this.cargando = false;
+        },
+      error: err => { 
+        this.cargando = false; 
+        console.error('Error detallado al cargar órdenes:', err);
+        Swal.fire('Error', 'No se pudieron cargar las órdenes', 'error');
+      }
+    });
   }
 
   verDetalle(ord: Orden) {
@@ -60,16 +77,9 @@ export default class OrdenCompraComponent {
 
     this.serv.listarDetalleOrden(this.token, ord.numeroOrden).subscribe({
       next: data => {
-        this.detalleOrden = data;
-        const primerElemento = data[0];
+        this.detalleServicio = data.filter((d: any) => 'fechaCita' in d && 'mascota' in d) as DetalleServicio[];
+        this.detalleProducto = data.filter((d: any) => !('fechaCita' in d && 'mascota' in d)) as DetalleProducto[];
 
-        if ('fechaCita' in primerElemento && 'idMascota' in primerElemento) {
-          this.detalleServicio = this.detalleOrden as DetalleServicio[]; 
-          this.detalleProducto = [];
-        } else {
-          this.detalleProducto = this.detalleOrden as DetalleProducto[];
-          this.detalleServicio = []; 
-        }
         this.abrirModalDetalle();
       },
       error: err => {
@@ -79,7 +89,7 @@ export default class OrdenCompraComponent {
     });
   }
 
-  private abrirModalDetalle() {
+  abrirModalDetalle() {
     const modalEl = document.getElementById('modalDetalleOrden');
     if (!modalEl) return;
     // @ts-ignore

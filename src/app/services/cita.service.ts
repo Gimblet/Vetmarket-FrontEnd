@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { DetalleDto } from '../modelos/OrdenCompra/DetalleDto';
+import { DetalleDto } from '../interface/ServicioCita/DetalleDto';
 import { Observable } from 'rxjs';
 
 @Injectable({

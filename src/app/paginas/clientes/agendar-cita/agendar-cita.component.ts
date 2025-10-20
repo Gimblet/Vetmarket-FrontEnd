@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Usuario } from '../../../modelos/Usuario/Usuario';
-import { Mascota } from '../../../modelos/Mascota/Mascota';
+import { Usuario } from '../../../interface/Usuario/Usuario';
+import { Mascota } from '../../../interface/Mascota/Mascota';
 import { Router } from '@angular/router';
 import { CitaService } from '../../../services/cita.service';
 import { AuthService } from '../../../services/auth.service';
-import { DetalleDto } from '../../../modelos/OrdenCompra/DetalleDto';
+import { DetalleDto } from '../../../interface/ServicioCita/DetalleDto';
 
 @Component({
   selector: 'app-agendar-cita',
@@ -27,6 +27,14 @@ export default class AgendarCitaComponent {
   usuario: Usuario | null = null;
   mascotasDisponibles: Mascota[] = [];
 
+  mascotaForm = {
+    nombre: '',
+    especie: '',
+    edad: 0,
+    peso: 0
+  };
+
+
   constructor(
     private serv:CitaService,
     private sesion:AuthService,
@@ -43,7 +51,7 @@ export default class AgendarCitaComponent {
     }
 
     this.token = this.sesion.getToken();
-    this.idUsuario = 1; //debo obtener el id usuario
+    this.idUsuario = Number(this.sesion.getUserId());
 
     if (this.idUsuario > 0) {
       this.cargarDatosIniciales(this.idUsuario);
@@ -84,5 +92,10 @@ export default class AgendarCitaComponent {
     const dia = String(fecha.getDate()).padStart(2, '0');
     return anio+"-"+mes+"-"+dia;
   }
+
+  seleccionarMascota() {
+    console.log('Lista de Mascota');
+  }
+
 
 }

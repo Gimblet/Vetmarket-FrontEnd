@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
@@ -12,7 +12,17 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class NavbarComponent {
 
-  constructor(private authService: AuthService) {}
+  rol: string | null = null;
+
+  constructor(private authService: AuthService,private router: Router) {}
+
+  ngOnInit(): void {
+    if (this.isAuthenticated()) {
+      this.rol = localStorage.getItem('rol');
+    } else {
+      this.rol = null;
+    }
+  }
 
   isAuthenticated(): boolean {
     return this.authService.isAutheticated()
@@ -20,6 +30,7 @@ export class NavbarComponent {
 
   logout(): void {
     this.authService.logout()
+    this.router.navigate(['/login']);
   }
 
 }

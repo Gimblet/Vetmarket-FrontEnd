@@ -1,21 +1,21 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Orden } from '../modelos/OrdenCompra/Orden';
-import { DetalleVentaDTO } from '../modelos/OrdenCompra/DetalleVentaDto';
-import { DetalleDto } from '../modelos/OrdenCompra/DetalleDto';
+import { Orden } from '../interface/OrdenCompra/Orden';
+import { DetalleVentaDTO } from '../interface/OrdenCompra/DetalleVentaDto';
+import { DetalleDto } from '../interface/ServicioCita/DetalleDto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrdenCompraService {
 
-  private apiUrl = 'http://localhost:8080/OrdenComrpa'; 
+  private apiUrl = 'http://localhost:8080/ordencompra';
 
   constructor(private http: HttpClient) { }
 
   private getAuthHeaders(token: string): HttpHeaders {
-    return new HttpHeaders({ 'Authorization': 'Bearer' +token });
+    return new HttpHeaders({ 'Authorization': "Bearer "+ token });
   }
 
   //Todas las órdenes para el administrador
@@ -27,9 +27,8 @@ export class OrdenCompraService {
   //Órdenes de un cliente específico
   listarOrdenesPorUsuario(token: string, idUsuario: number): Observable<Orden[]> {
     const headers = this.getAuthHeaders(token);
-    const params = new HttpParams().set('idUsuario', idUsuario.toString());
     
-    return this.http.get<Orden[]>(this.apiUrl+'/ordenCompra/ordenesClientes', { headers, params });
+    return this.http.get<Orden[]>(this.apiUrl+'/ordenCompra/ordenesClientes', { headers, params: { idUsuario }});
   }
 
   //Detalle de una orden

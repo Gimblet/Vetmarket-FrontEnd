@@ -32,5 +32,9 @@ export const routes: Routes = [
   {
     path: 'agendarCita',
     loadComponent: () => import('./paginas/clientes/agendar-cita/agendar-cita.component')
+  },
+  {
+    path: 'ordenCompra',
+    loadComponent: () => import('./paginas/clientes/orden-compra/orden-compra.component')
   }
 ];

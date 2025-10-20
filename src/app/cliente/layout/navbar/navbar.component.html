@@ -1,29 +1,58 @@
 <nav class="navbar">
-    <!-- logo -->
-    <div class="nav-logo">
-        <a routerLink="/">VetMarket</a>
-    </div>
+  <!-- Logo -->
+  <div class="nav-logo">
+    <a routerLink="/">VetMarket</a>
+  </div>
 
-    <!-- menu -->
-    <div class="menu">
-        <ul class="nav-links">
-            <li><a routerLink="/">Inicio</a></li>
-            <li><a routerLink="/cita">Citas</a></li>
-            <li><a routerLink="/carrito">Carrito de Compra</a></li>
-        </ul>
-    </div>
+  <!-- Menú principal -->
+  <div class="menu">
+    <ul class="nav-links">
 
-     <div class="nav-actions">
-        <!-- Iniciar/Cerrar sesión -->
-        <ng-container *ngIf="!isAuthenticated(); else logeado">
-        <button routerLink="/login" class="btn-login">
-            <i class="bi bi-person"></i>
-        </button>
-        </ng-container>
-        <ng-template #logeado>
-        <button (click)="logout()" class="btn-logout">
-            <i class="bi bi-box-arrow-right"></i>
-        </button>
-        </ng-template>
-     </div>
+      <!-- Usuario no logueado -->
+      <ng-container *ngIf="!isAuthenticated()">
+        <li><a routerLink="/servicio">Servicios</a></li>
+        <li><a routerLink="/producto">Productos</a></li>
+      </ng-container>
+
+      <!-- Cliente -->
+      <ng-container *ngIf="isAuthenticated() && rol?.includes('CLIENTE')">
+        <li><a routerLink="/servicio">Servicios</a></li>
+        <li><a routerLink="/producto">Productos</a></li>
+        <li><a routerLink="/ordenCompra">Mis Compras</a></li>
+        <li><a routerLink="/carrito">Carrito</a></li>
+      </ng-container>
+
+      <!-- Veterinario -->
+      <ng-container *ngIf="isAuthenticated() && rol?.includes('VETERINARIO')">
+        <li><a routerLink="/misproductos">Mis Productos</a></li>
+        <li><a routerLink="/misservicios">Mis Servicios</a></li>
+        <li><a routerLink="/misventas">Mis Ventas</a></li>
+      </ng-container>
+
+      <!-- Administrador -->
+      <ng-container *ngIf="isAuthenticated() && rol?.includes('ADMIN')">
+        <li><a routerLink="/productos">Productos</a></li>
+        <li><a routerLink="/servicios">Servicios</a></li>
+        <li><a routerLink="/ventas">Ventas</a></li>
+        <li><a routerLink="/mascotas">Mascotas</a></li>
+        <li><a routerLink="/usuarios">Usuarios</a></li>
+        <li><a routerLink="/ordenes">Órdenes de compra</a></li>
+      </ng-container>
+
+    </ul>
+  </div>
+
+  <!-- Botón de login/logout -->
+  <div class="nav-actions">
+    <ng-container *ngIf="!isAuthenticated(); else logeado">
+      <button routerLink="/login" class="btn-login">
+        <i class="bi bi-person"></i>
+      </button>
+    </ng-container>
+    <ng-template #logeado>
+      <button (click)="logout()" class="btn-logout">
+        <i class="bi bi-box-arrow-right"></i>
+      </button>
+    </ng-template>
+  </div>
 </nav>
