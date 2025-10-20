@@ -3,18 +3,13 @@ import {ProductoComponent} from './producto/producto.component'
 import {LoginComponent} from './auth/login/login.component';
 import {HomeComponent} from './cliente/home/home.component';
 import {DetallesComponent} from './producto/detalles/detalles.component';
+import { DashboardComponent } from './admin/dashboard/dashboard.component';
 
 export const routes: Routes = [
   // Ruta inicial
-  {
-    path: '',
-    component: HomeComponent
-  },
+  { path: '', component: HomeComponent },
   // Auth
-  {
-    path: 'login',
-    component: LoginComponent
-  },
+  { path: 'login', component: LoginComponent },
   // Producto
   {
     path: 'producto',
@@ -36,5 +31,13 @@ export const routes: Routes = [
   {
     path: 'ordenCompra',
     loadComponent: () => import('./paginas/clientes/orden-compra/orden-compra.component')
+  },
+
+  // Rutas para ADMIN
+  {
+    path: 'admin/dashboard', component: DashboardComponent,
+        children: [
+            // { path: 'listar-mascota', component: ListaMascComponent }
+        ]
   }
 ];
