@@ -24,10 +24,12 @@ export const routes: Routes = [
       }
     ]
   },
+  // AgendarCita
   {
     path: 'agendarCita',
     loadComponent: () => import('./paginas/clientes/agendar-cita/agendar-cita.component')
   },
+  // OrdenCompra
   {
     path: 'ordenCompra',
     loadComponent: () => import('./paginas/clientes/orden-compra/orden-compra.component')

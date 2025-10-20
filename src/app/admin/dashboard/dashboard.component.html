@@ -1,1 +1,99 @@
-<p>dashboard works!</p>
+<div class="layout-container">
+  <!-- Sidebar ADMIN -->
+  <aside class="custom-sidebar">
+
+    <!-- Logo -->
+  <div class="nav-logo">
+    <i class="bi bi-heart-pulse icon-logo"></i>
+    <a [routerLink]="['inicio']">VetMarket</a>
+  </div>
+
+    <ul class="custom-nav">
+  <li>
+    <a class="custom-nav-link" [routerLink]="['inicio']" routerLinkActive="active">
+      <i class="bi bi-speedometer"></i> Dashboard
+    </a>
+  </li>
+  <li>
+    <a class="custom-nav-link" [routerLink]="['listar-producto']" routerLinkActive="active">
+      <i class="bi bi-box-seam"></i> Productos
+    </a>
+  </li>
+  <li>
+    <a class="custom-nav-link" [routerLink]="['listar-servicio']" routerLinkActive="active">
+      <i class="bi bi-wrench-adjustable-circle"></i> Servicios
+    </a>
+  </li>
+  <li>
+    <a class="custom-nav-link" [routerLink]="['listar-venta']" routerLinkActive="active">
+      <i class="bi bi-cart-check"></i> Ventas
+    </a>
+  </li>
+  <li>
+    <a class="custom-nav-link" [routerLink]="['listar-mascota']" routerLinkActive="active">
+      <i class="bi bi-heart-pulse"></i> Mascotas
+    </a>
+  </li>
+  <li>
+    <a class="custom-nav-link" [routerLink]="['listar-usuario']" routerLinkActive="active">
+      <i class="bi bi-people"></i> Usuarios
+    </a>
+  </li>
+  <li>
+    <a class="custom-nav-link" [routerLink]="['listar-ordenCompra']" routerLinkActive="active">
+      <i class="bi bi-receipt-cutoff"></i> Órdenes de compra
+    </a>
+  </li>
+</ul>
+
+
+    <a (click)="logout()" class="logout-btn">
+      <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+    </a>
+  </aside>
+
+  <!-- Main content -->
+  <main class="custom-main">
+    <!-- Header -->
+    <nav class="custom-navbar">
+      <div class="navbar-content">
+        
+
+        <!-- Usuario -->
+        <div class="dropdown">
+          <div id="userDropdown" data-bs-toggle="dropdown" style="cursor: pointer">
+            <img src="images/undraw_profile_2.svg" alt="Perfil" class="user-img" />
+          </div>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+            <li>
+              <a class="dropdown-item" [routerLink]="['/profile']">
+                <i class="bi bi-person-circle"></i> Perfil
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" [routerLink]="['/inbox']">
+                <i class="bi bi-inbox"></i> Bandeja de Entrada
+              </a>
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <a (click)="logout()" class="logout-btn">
+                <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Contenido dinámico -->
+    <section class="main-content">
+      <router-outlet></router-outlet>
+    </section>
+
+    <!-- Footer -->
+    <footer class="custom-footer">
+      <small>© {{ currentYear }} {{ companyName }}</small>
+    </footer>
+  </main>
+</div>
