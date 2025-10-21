@@ -5,7 +5,6 @@ import {Producto} from '../interface/producto/Producto';
 import {catchError} from 'rxjs';
 import {MatButton} from '@angular/material/button';
 import {DomSanitizer} from '@angular/platform-browser';
-import {NavbarComponent} from '../cliente/layout/navbar/navbar.component';
 import {NgForOf, SlicePipe} from '@angular/common';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {RouterLink} from "@angular/router";
@@ -13,16 +12,15 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
 
 @Component({
     selector: 'app-producto',
-    imports: [
-        MatCardModule,
-        MatButton,
-        NavbarComponent,
-        RouterLink,
-        MatPaginator,
-        SlicePipe,
-        NgForOf,
-        MatProgressSpinner
-    ],
+  imports: [
+    MatCardModule,
+    MatButton,
+    RouterLink,
+    MatPaginator,
+    SlicePipe,
+    NgForOf,
+    MatProgressSpinner,
+  ],
     templateUrl: './producto.component.html',
     styleUrl: './producto.component.scss'
 })
