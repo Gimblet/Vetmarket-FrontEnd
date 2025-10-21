@@ -2,6 +2,7 @@ import {Routes} from '@angular/router';
 import {ProductoComponent} from './producto/producto.component'
 import {LoginComponent} from './auth/login/login.component';
 import {DetallesComponent} from './producto/detalles/detalles.component';
+import {AgregarComponent} from './producto/agregar/agregar.component';
 
 export const routes: Routes = [
 
@@ -16,9 +17,14 @@ export const routes: Routes = [
         component: ProductoComponent
       },
       {
+        path: 'agregar',
+        component: AgregarComponent
+      },
+      {
         path: ':id',
         component: DetallesComponent
-      }
+      },
+
     ]
   },
   // AgendarCita
