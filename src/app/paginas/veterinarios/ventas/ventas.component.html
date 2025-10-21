@@ -1,0 +1,47 @@
+<div class="container-fluid">
+  <h2 class="my-4">Mis Ventas</h2>
+
+  <div *ngIf="ventas.length === 0" class="alert alert-info">
+    No se han registrado ventas todavía.
+  </div>
+
+  <div *ngIf="ventas.length > 0" class="table-responsive">
+    <table class="table table-striped table-hover align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Tipo</th>
+          <th scope="col">Nombre del ítem</th>
+          <th scope="col">Fecha</th>
+          <th scope="col">Cantidad</th>
+          <th scope="col">Precio Unitario</th>
+          <th scope="col">Total</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let venta of ventas; let i = index">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>
+            <span *ngIf="venta.tipoItem === 'PRODUCTO'">
+              <i class="bi bi-box-seam"></i> Producto
+            </span>
+            <span *ngIf="venta.tipoItem === 'SERVICIO'">
+              <i class="bi bi-wrench-adjustable-circle"></i> Servicio
+            </span>
+          </td>
+          <td>{{ venta.nombreItem }}</td>
+          <td>{{ venta.fecha | date:'dd/MM/yyyy' }}</td>
+          <td>{{ venta.cantidad }}</td>
+          <td>{{ venta.precio }}</td>
+          <td>{{ venta.total }}</td>
+          <td>
+            <button class="btn btn-sm btn-primary" (click)="descargarPDF(venta)">
+              <i class="bi bi-file-earmark-pdf"></i> PDF
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

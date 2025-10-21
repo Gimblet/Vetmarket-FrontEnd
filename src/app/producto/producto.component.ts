@@ -6,7 +6,6 @@ import {catchError} from 'rxjs';
 import {MatButton} from '@angular/material/button';
 import {DomSanitizer} from '@angular/platform-browser';
 import {NavbarComponent} from '../cliente/layout/navbar/navbar.component';
-import {FooterComponent} from '../cliente/layout/footer/footer.component';
 import {NgForOf, SlicePipe} from '@angular/common';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {RouterLink} from "@angular/router";
@@ -18,7 +17,6 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
         MatCardModule,
         MatButton,
         NavbarComponent,
-        FooterComponent,
         RouterLink,
         MatPaginator,
         SlicePipe,

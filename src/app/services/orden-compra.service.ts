@@ -40,9 +40,7 @@ export class OrdenCompraService {
   //Detalle de Ventas para veterinarios
   listarVentasVeterinarios(token: string, idUsuario: number): Observable<DetalleVentaDTO[]> {
     const headers = this.getAuthHeaders(token);
-    const params = new HttpParams().set('idUsuario', idUsuario.toString());
-    
-    return this.http.get<DetalleVentaDTO[]>(this.apiUrl+'/ordenCompra/listaVentas', { headers, params });
+    return this.http.get<DetalleVentaDTO[]>(this.apiUrl+'/ordenCompra/listaVentas', { headers, params: { idUsuario } });
   }
   
   //Procesar la orden de compra
