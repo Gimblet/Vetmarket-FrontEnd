@@ -7,4 +7,7 @@ export interface DetalleVentaDTO {
   precio: number;
   total: number;
   cantidad: number;
+
+  idUsuario:number;
+  idMascota: number;
 }

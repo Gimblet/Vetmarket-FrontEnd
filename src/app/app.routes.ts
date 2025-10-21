@@ -28,15 +28,19 @@ export const routes: Routes = [
     path: 'agendarCita',
     loadComponent: () => import('./paginas/clientes/agendar-cita/agendar-cita.component')
   },
-  // OrdenCompra
+  // OrdenCompra - Cliente
   {
     path: 'ordenCompra',
     loadComponent: () => import('./paginas/clientes/orden-compra/orden-compra.component')
-  }
-  ,
+  },
   // Ventas  - Veterinarios
   {
     path: 'misventas',
     loadComponent: () => import('./paginas/veterinarios/ventas/ventas.component')
+  },
+  // Ordenes de comrpa - Admin
+  {
+    path: 'ordenes',
+    loadComponent: () => import('./paginas/administrador/ordenes/ordenes.component')
   }
 ];
