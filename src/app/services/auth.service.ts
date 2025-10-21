@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LoginRequest } from '../interface/auth/login-request.interface';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +9,10 @@ import { Observable } from 'rxjs';
 export class AuthService {
   
   private apiUrl = 'http://localhost:8080/autenticacion/auth'
+
+  private rolSubject = new BehaviorSubject<string | null>(localStorage.getItem('rol'));
+  rol$ = this.rolSubject.asObservable();
+
   constructor(private http: HttpClient) { }
 
   login(credentials: LoginRequest): Observable<any> {
@@ -20,8 +24,13 @@ export class AuthService {
     localStorage.removeItem('rol');
     localStorage.removeItem('usuarioId');
     localStorage.removeItem('usuarioNombre');
+    this.rolSubject.next(null);
   }
 
+  setRol(rol: string) {
+    localStorage.setItem('rol', rol);
+    this.rolSubject.next(rol);
+  }
 
   isAutheticated(): boolean {
     return !!localStorage.getItem('token');

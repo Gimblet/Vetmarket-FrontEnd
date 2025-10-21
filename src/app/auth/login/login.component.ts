@@ -39,6 +39,8 @@ export class LoginComponent {
 
         const rol = response.rol
 
+        this.authService.setRol(rol);
+
         if (rol.includes('ADMIN')) {
           this.toastr.success('Bienvenido Administrador', 'Éxito')
           this.router.navigate(['/admin/dashboard'])

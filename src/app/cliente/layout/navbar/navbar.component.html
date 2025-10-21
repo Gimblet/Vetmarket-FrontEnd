@@ -1,58 +1,79 @@
-<nav class="navbar">
-  <!-- Logo -->
-  <div class="nav-logo">
-    <a routerLink="/">VetMarket</a>
-  </div>
+<div class="d-flex vh-100">
 
-  <!-- Menú principal -->
-  <div class="menu">
-    <ul class="nav-links">
+  <!-- Sidebar -->
+  <aside class="d-flex flex-column p-3 text-white" [ngClass]="sidebarClass()">
+    <a routerLink="/" class="d-flex align-items-center mb-3 text-white text-decoration-none">
+      <i class="bi bi-heart-pulse fs-3 me-2"></i>
+      <span class="fs-4 fw-bold">VetMarket</span>
+    </a>
 
-      <!-- Usuario no logueado -->
-      <ng-container *ngIf="!isAuthenticated()">
-        <li><a routerLink="/servicio">Servicios</a></li>
-        <li><a routerLink="/producto">Productos</a></li>
+    <hr>
+
+    <ul class="nav nav-pills flex-column mb-auto">
+      <!-- No logueado -->
+      <ng-container *ngIf="!rol">
+        <li class="nav-item">
+          <a routerLink="/servicio" class="nav-link text-white">Servicios</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/producto" class="nav-link text-white">Productos</a>
+        </li>
       </ng-container>
 
       <!-- Cliente -->
-      <ng-container *ngIf="isAuthenticated() && rol?.includes('CLIENTE')">
-        <li><a routerLink="/servicio">Servicios</a></li>
-        <li><a routerLink="/producto">Productos</a></li>
-        <li><a routerLink="/ordenCompra">Mis Compras</a></li>
-        <li><a routerLink="/carrito">Carrito</a></li>
+      <ng-container *ngIf="rol==='CLIENTE'">
+        <li class="nav-item"><a routerLink="/servicio" class="nav-link text-white">Servicios</a></li>
+        <li class="nav-item"><a routerLink="/producto" class="nav-link text-white">Productos</a></li>
+        <li class="nav-item"><a routerLink="/mascotas" class="nav-link text-white">Mis Mascotas</a></li>
+        <li class="nav-item"><a routerLink="/ordenCompra" class="nav-link text-white">Mis Compras</a></li>
+        <li class="nav-item"><a routerLink="/carrito" class="nav-link text-white">Carrito</a></li>
       </ng-container>
 
       <!-- Veterinario -->
-      <ng-container *ngIf="isAuthenticated() && rol?.includes('VETERINARIO')">
-        <li><a routerLink="/misproductos">Mis Productos</a></li>
-        <li><a routerLink="/misservicios">Mis Servicios</a></li>
-        <li><a routerLink="/misventas">Mis Ventas</a></li>
+      <ng-container *ngIf="rol==='VETERINARIO'">
+        <li class="nav-item"><a routerLink="/misproductos" class="nav-link text-white">Mis Productos</a></li>
+        <li class="nav-item"><a routerLink="/misservicios" class="nav-link text-white">Mis Servicios</a></li>
+        <li class="nav-item"><a routerLink="/misventas" class="nav-link text-white">Mis Ventas</a></li>
       </ng-container>
 
-      <!-- Administrador -->
-      <!-- <ng-container *ngIf="isAuthenticated() && rol?.includes('ADMIN')">
-        <li><a routerLink="/productos">Productos</a></li>
-        <li><a routerLink="/servicios">Servicios</a></li>
-        <li><a routerLink="/ventas">Ventas</a></li>
-        <li><a routerLink="/mascotas">Mascotas</a></li>
-        <li><a routerLink="/usuarios">Usuarios</a></li>
-        <li><a routerLink="/ordenes">Órdenes de compra</a></li>
-      </ng-container> -->
-
+      <!-- Admin -->
+      <ng-container *ngIf="rol==='ADMIN'">
+        <li class="nav-item"><a routerLink="/productos" class="nav-link text-white">Productos</a></li>
+        <li class="nav-item"><a routerLink="/servicios" class="nav-link text-white">Servicios</a></li>
+        <li class="nav-item"><a routerLink="/ventas" class="nav-link text-white">Ventas</a></li>
+        <li class="nav-item"><a routerLink="/mascotas" class="nav-link text-white">Mascotas</a></li>
+        <li class="nav-item"><a routerLink="/usuarios" class="nav-link text-white">Usuarios</a></li>
+        <li class="nav-item"><a routerLink="/ordenes" class="nav-link text-white">Órdenes de compra</a></li>
+      </ng-container>
     </ul>
+
+    <hr>
+
+    <div *ngIf="!rol">
+      <button routerLink="/login" class="btn btn-outline-light w-100">Iniciar Sesión</button>
+    </div>
+    <div *ngIf="rol">
+      <button (click)="logout()" class="btn btn-outline-light w-100">Cerrar Sesión</button>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <div class="flex-grow-1 d-flex flex-column">
+    <nav class="navbar navbar-expand-lg" [ngClass]="navbarClass()">
+      <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1 text-white">
+          Dashboard
+        </span>
+      </div>
+    </nav>
+
+    <main class="p-4 flex-grow-1 bg-light overflow-auto">
+      <router-outlet></router-outlet>
+    </main>
+
+    <footer class="text-center p-2 bg-white border-top">
+      © {{ currentYear }} VetMarket
+    </footer>
   </div>
 
-  <!-- Botón de login/logout -->
-  <div class="nav-actions">
-    <ng-container *ngIf="!isAuthenticated(); else logeado">
-      <button routerLink="/login" class="btn-login">
-        <i class="bi bi-person"></i>
-      </button>
-    </ng-container>
-    <ng-template #logeado>
-      <button (click)="logout()" class="btn-logout">
-        <i class="bi bi-box-arrow-right"></i>
-      </button>
-    </ng-template>
-  </div>
-</nav>
+</div>
