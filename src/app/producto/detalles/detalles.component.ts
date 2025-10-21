@@ -1,5 +1,4 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
-import {NavbarComponent} from '../../cliente/layout/navbar/navbar.component';
 import {ActivatedRoute} from '@angular/router';
 import {Producto} from '../../interface/producto/Producto';
 import {ProductosService} from '../../services/Producto/productos.service';
@@ -11,7 +10,6 @@ import {Location} from '@angular/common';
 @Component({
   selector: 'app-detalles',
   imports: [
-    NavbarComponent,
     MatTooltip,
   ],
   templateUrl: './detalles.component.html',
