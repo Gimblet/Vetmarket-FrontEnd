@@ -3,6 +3,7 @@ import {ProductoComponent} from './producto/producto.component'
 import {LoginComponent} from './auth/login/login.component';
 import {DetallesComponent} from './producto/detalles/detalles.component';
 import {AgregarComponent} from './producto/agregar/agregar.component';
+import { ListaMascComponent } from './paginas/administrador/mascota/lista-masc/lista-masc.component';
 
 export const routes: Routes = [
 
@@ -46,5 +47,7 @@ export const routes: Routes = [
   {
     path: 'ordenes',
     loadComponent: () => import('./paginas/administrador/ordenes/ordenes.component')
-  }
+  },
+  // Listar mascotas - Admin
+  { path: 'mascotas', component: ListaMascComponent}
 ];
