@@ -3,6 +3,8 @@ import {ProductoComponent} from './producto/producto.component'
 import {LoginComponent} from './auth/login/login.component';
 import {DetallesComponent} from './producto/detalles/detalles.component';
 import {AgregarComponent} from './producto/agregar/agregar.component';
+import {ProductosComponent} from './paginas/veterinarios/productos/productos.component';
+import {ActualizarComponent} from './producto/actualizar/actualizar.component';
 
 export const routes: Routes = [
 
@@ -21,6 +23,10 @@ export const routes: Routes = [
         component: AgregarComponent
       },
       {
+        path: 'actualizar/:id',
+        component: ActualizarComponent
+      },
+      {
         path: ':id',
         component: DetallesComponent
       },
@@ -36,6 +42,10 @@ export const routes: Routes = [
   {
     path: 'ordenCompra',
     loadComponent: () => import('./paginas/clientes/orden-compra/orden-compra.component')
+  },
+  {
+    path: 'misproductos',
+    component: ProductosComponent,
   },
   // Ventas  - Veterinarios
   {

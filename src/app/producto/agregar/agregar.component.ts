@@ -32,6 +32,7 @@ export class AgregarComponent implements OnInit {
     precio: new FormControl('', Validators.required),
     stock: new FormControl('', Validators.required),
     descripcion: new FormControl('', Validators.required),
+    idUsuario: new FormControl('', Validators.required),
   });
 
   imageFile: File = new File([new Blob([])], '');
@@ -55,6 +56,9 @@ export class AgregarComponent implements OnInit {
     } else if(this.rol !== 'VETERINARIO' || this.rol == null ) {
       this.router.navigate(['/']);
     }
+
+    this.productoForm.controls['idUsuario'].setValue(this.authService.getUserId());
+
   }
 
   // @ts-ignore

@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router} from '@angular/router';
 import { filter } from 'rxjs';
 import { NavbarComponent } from './cliente/layout/navbar/navbar.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NavbarComponent, RouterOutlet],
+  imports: [NavbarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

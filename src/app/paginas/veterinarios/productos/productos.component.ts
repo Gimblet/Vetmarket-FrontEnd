@@ -1,17 +1,17 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
-import {ProductosService} from '../services/Producto/productos.service';
-import {Producto} from '../interface/producto/Producto';
 import {catchError} from 'rxjs';
 import {MatButton} from '@angular/material/button';
 import {DomSanitizer} from '@angular/platform-browser';
 import {NgForOf, SlicePipe} from '@angular/common';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
-
+import {AuthService} from '../../../services/auth.service';
+import {ProductosService} from '../../../services/Producto/productos.service';
+import {Producto} from '../../../interface/producto/Producto';
 @Component({
-  selector: 'app-producto',
+  selector: 'app-productos',
   imports: [
     MatCardModule,
     MatButton,
@@ -21,30 +21,50 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
     NgForOf,
     MatProgressSpinner,
   ],
-  templateUrl: './producto.component.html',
-  styleUrl: './producto.component.scss'
+  templateUrl: './productos.component.html',
+  styleUrl: './productos.component.scss'
 })
-
-export class ProductoComponent implements OnInit {
+export class ProductosComponent implements OnInit {
   productoService = inject(ProductosService)
+  authService = inject(AuthService)
   listaProductos = signal<Array<Producto>>([])
 
+  public userId: string | null | number = -1;
+  rol: string | null = null;
+
   // Pagination
-  public pageSize = 8;
+  public pageSize = 12;
   public lowIndex = 0;
-  public highIndex = 8;
+  public highIndex = 12;
 
   constructor(
     public sanitizer: DomSanitizer,
+    private router: Router
   ) {
   }
 
   ngOnInit(): void {
-    this.obtenerProductos();
+    this.authService.rol$.subscribe((rol) => {
+      this.rol = rol;
+    });
+
+    if (!this.authService.isAutheticated()) {
+      this.router.navigate(['/login']);
+    } else if (this.rol !== 'VETERINARIO' || this.rol == null) {
+      this.router.navigate(['/']);
+    }
+
+    this.userId = this.authService.getUserId()
+
+    if (this.userId != null && this.userId !== "") {
+      this.obtenerProductos();
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 
   obtenerProductos() {
-    this.productoService.obtenerProductos()
+    this.productoService.obtenerProductosPorVeterinario(this.userId)
       .pipe(
         catchError((err) => {
           console.log(err);
@@ -78,5 +98,4 @@ export class ProductoComponent implements OnInit {
     this.highIndex = this.lowIndex + event.pageSize;
     return event;
   }
-
 }

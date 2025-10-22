@@ -1,6 +1,7 @@
 <div class="product-container p-3 rounded shadow-lg">
   <div class="image-container">
-    <img [src]="producto().imagen" alt="Product" class="img-fluid rounded product-image">
+    <img [src]="producto().imagen || 'https://placehold.co/600x400?text=No+Image'" alt="Product"
+         class="img-fluid rounded product-image">
   </div>
 
   <!-- Producto Detalles -->
@@ -35,10 +36,19 @@
 
     <!-- Botones-->
 
-    <button class="btn btn-primary btn-lg mb-3 me-2">
-      <i class="bi bi-cart-plus"></i> Añadir al Carrito
-    </button>
-    <button (click)="retroceder()" class="btn btn-outline-secondary btn-lg mb-3">
+    @if (rol === 'CLIENTE') {
+      <button class="btn btn-primary btn-lg mb-3 me-2">
+        <i class="bi bi-cart-plus"></i> Añadir al Carrito
+      </button>
+    } @else if (rol === null || rol === '') {
+      <div matTooltip="Inicia Sesion para Agregar Al carrito" matTooltipPosition="after" style="display: flex; width: max-content">
+        <button mat-raised-button
+                class="btn btn-primary btn-lg mb-3 me-2" disabled>
+          <i class="bi bi-cart-plus"></i> Añadir al Carrito
+        </button>
+      </div>
+    }
+    <button mat-raised-button (click)="retroceder()" class="btn btn-outline-secondary btn-lg mb-3">
       <i class="bi bi-arrow-90deg-left"></i> Regresar
     </button>
   </div>

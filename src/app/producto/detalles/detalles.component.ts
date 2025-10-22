@@ -6,11 +6,14 @@ import {catchError} from 'rxjs';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatTooltip} from '@angular/material/tooltip';
 import {Location} from '@angular/common';
+import {AuthService} from '../../services/auth.service';
+import {MatButton} from '@angular/material/button';
 
 @Component({
   selector: 'app-detalles',
   imports: [
     MatTooltip,
+    MatButton,
   ],
   templateUrl: './detalles.component.html',
   styleUrl: './detalles.component.scss'
@@ -21,6 +24,9 @@ export class DetallesComponent implements OnInit {
 
   private activatedRoute = inject(ActivatedRoute);
   productoService = inject(ProductosService);
+  authService = inject(AuthService)
+
+  rol: string | null = null;
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -32,6 +38,9 @@ export class DetallesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.authService.rol$.subscribe((rol) => {
+      this.rol = rol;
+    });
     this.obtenerDetalles(this.productId());
   }
 
