@@ -43,7 +43,7 @@ export class LoginComponent {
 
         if (rol.includes('ADMIN')) {
           this.toastr.success('Bienvenido Administrador', 'Éxito')
-          this.router.navigate(['/admin/dashboard'])
+          this.router.navigate(['/'])
         } else if (rol.includes('CLIENTE')) {
           this.toastr.success('Bienvenido Cliente', 'Éxito')
           this.router.navigate(['/'])
