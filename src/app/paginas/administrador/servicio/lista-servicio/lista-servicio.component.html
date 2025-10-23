@@ -1,0 +1,52 @@
+<div class="container mt-4">
+  <!-- Encabezado: Título y botón -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="title">Lista de Servicios</h3>
+    <button class="btn btn-success create-btn" (click)="abrirModal()">Nuevo Servicio</button>
+  </div>
+
+  <!-- Mensaje si no hay direcciones -->
+  <div *ngIf="!servicios|| servicios.length === 0" class="alert alert-info">
+    No hay servicios registrados.
+  </div>
+
+  <!-- Contenedor con bordes y sombra -->
+  <div class="table-container-full" *ngIf="servicios && servicios.length > 0">
+    <table class="table table-striped table-hover custom-table align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th class="col-index">#</th>
+          <th class="col-id">ID</th>
+          <th>PRECIO</th>
+          <th>NOMBRE</th>
+          <th>DESCRIPCION</th>
+           <th>USUARIO</th>
+          <th>TELEFONO</th>
+          <th class="col-actions">ACCIONES</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let servicio of servicios; let i = index">
+          <td class="col-index">{{ i + 1 }}</td>
+          <td class="col-id">{{ servicio.idServicio }}</td>
+          <td>{{ servicio.precio }}</td>
+          <td>{{ servicio.nombre }}</td>
+          <td>{{ servicio.descripcion }}</td>
+          <td>{{ servicio.nombreUsuario }} {{servicio.apellido}}</td>
+          <td>{{ servicio.telefono }}</td>
+
+          <td class="col-actions">
+            <button class="btn btn-warning me-2" (click)="editarServicio(servicio)">
+              <i class="bi bi-pencil"></i>
+            </button>
+            <button class="btn btn-danger" (click)="eliminarServicio(servicio.idServicio)">
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal para Crear/Editar -->
