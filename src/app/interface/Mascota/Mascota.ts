@@ -1,3 +1,5 @@
+import { Usuario } from "../Usuario/Usuario";
+
 export interface MascotaRequest {
     nombre: string;
     edad: number;
@@ -14,5 +16,6 @@ export interface Mascota {
     peso: number;
     especie: string;
     raza: string;
-    //usuario?: Usuario;
+    // usuario?: Usuario;
+    // idUsuario: number
 }
