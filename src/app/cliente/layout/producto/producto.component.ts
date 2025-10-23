@@ -1,7 +1,7 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
-import {ProductosService} from '../services/Producto/productos.service';
-import {Producto} from '../interface/producto/Producto';
+import {ProductosService} from '../../../services/Producto/productos.service';
+import {Producto} from '../../../interface/producto/Producto';
 import {catchError} from 'rxjs';
 import {MatButton} from '@angular/material/button';
 import {DomSanitizer} from '@angular/platform-browser';

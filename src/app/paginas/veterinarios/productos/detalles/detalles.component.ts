@@ -1,12 +1,12 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {Producto} from '../../interface/producto/Producto';
-import {ProductosService} from '../../services/Producto/productos.service';
+import {Producto} from '../../../../interface/producto/Producto';
+import {ProductosService} from '../../../../services/Producto/productos.service';
 import {catchError} from 'rxjs';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatTooltip} from '@angular/material/tooltip';
 import {Location} from '@angular/common';
-import {AuthService} from '../../services/auth.service';
+import {AuthService} from '../../../../services/auth.service';
 import {MatButton} from '@angular/material/button';
 
 @Component({
