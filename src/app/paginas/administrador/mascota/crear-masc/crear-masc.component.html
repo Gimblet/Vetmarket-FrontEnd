@@ -1,1 +1,149 @@
-<p>crear-masc works!</p>
+<!-- Modal para Crear / Editar Mascota -->
+<div
+  class="modal fade"
+  id="nuevaMascotaModal"
+  tabindex="-1"
+  aria-hidden="true"
+  (hidden.bs.modal)="resetFormulario()"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          {{ mascotaSeleccionado ? "Editar Mascota" : "Nueva Mascota" }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Cerrar"
+        ></button>
+      </div>
+
+      <div class="modal-body">
+        <form [formGroup]="formMascota" (ngSubmit)="guardarMascota()">
+          <div class="row g-3">
+            <!-- Nombre -->
+            <div class="col-md-6">
+              <label for="nombre" class="form-label">Nombre</label>
+              <input
+                type="text"
+                id="nombre"
+                formControlName="nombre"
+                class="form-control"
+              />
+              <div
+                *ngIf="formMascota.get('nombre')?.invalid && formMascota.get('nombre')?.touched"
+                class="text-danger"
+              >
+                El campo Nombre es obligatorio.
+              </div>
+            </div>
+
+            <!-- Edad -->
+            <div class="col-md-6">
+              <label for="edad" class="form-label">Edad (años)</label>
+              <input
+                type="number"
+                id="edad"
+                formControlName="edad"
+                class="form-control"
+                min="0"
+              />
+              <div
+                *ngIf="formMascota.get('edad')?.invalid && formMascota.get('edad')?.touched"
+                class="text-danger"
+              >
+                La edad es obligatoria y debe ser un número válido.
+              </div>
+            </div>
+
+            <!-- Peso -->
+            <div class="col-md-6">
+              <label for="peso" class="form-label">Peso (kg)</label>
+              <input
+                type="number"
+                id="peso"
+                formControlName="peso"
+                class="form-control"
+                step="0.1"
+                min="0"
+              />
+              <div
+                *ngIf="formMascota.get('peso')?.invalid && formMascota.get('peso')?.touched"
+                class="text-danger"
+              >
+                El peso es obligatorio y debe ser un número válido.
+              </div>
+            </div>
+
+            <!-- Especie -->
+            <div class="col-md-6">
+              <label for="especie" class="form-label">Especie</label>
+              <input
+                type="text"
+                id="especie"
+                formControlName="especie"
+                class="form-control"
+              />
+              <div
+                *ngIf="formMascota.get('especie')?.invalid && formMascota.get('especie')?.touched"
+                class="text-danger"
+              >
+                La especie es obligatoria.
+              </div>
+            </div>
+
+            <!-- Raza -->
+            <div class="col-md-6">
+              <label for="raza" class="form-label">Raza</label>
+              <input
+                type="text"
+                id="raza"
+                formControlName="raza"
+                class="form-control"
+              />
+              <div
+                *ngIf="formMascota.get('raza')?.invalid && formMascota.get('raza')?.touched"
+                class="text-danger"
+              >
+                La raza es obligatoria.
+              </div>
+            </div>
+
+            <!-- ID Usuario 
+            <div class="col-md-6">
+              <label for="idUsuario" class="form-label">ID Usuario</label>
+              <input
+                type="number"
+                id="idUsuario"
+                formControlName="idUsuario"
+                class="form-control"
+                min="1"
+              />
+              <div
+                *ngIf="formMascota.get('idUsuario')?.invalid && formMascota.get('idUsuario')?.touched"
+                class="text-danger"
+              >
+                El ID de usuario es obligatorio.
+              </div>
+            </div> -->
+          </div>
+
+          <div class="mt-4 text-end">
+            <button
+              type="button"
+              class="btn btn-secondary me-2"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-primary">
+              {{ mascotaSeleccionado ? "Actualizar" : "Guardar" }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
