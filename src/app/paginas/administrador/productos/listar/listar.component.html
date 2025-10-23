@@ -32,8 +32,8 @@
       <mat-header-cell *matHeaderCellDef> Acciones</mat-header-cell>
       <mat-cell *matCellDef="let producto">
         <div>
-          <button mat-button>Editar</button>
-          <button mat-button (click)="eliminarProducto(producto.idProducto)">Eliminar</button>
+          <button mat-button [routerLink]="['/producto/actualizar', producto.idProducto]">Editar</button>
+          <button mat-button (click)="eliminarProducto(producto.idProducto)" style="color: red">Eliminar</button>
         </div>
       </mat-cell>
     </ng-container>

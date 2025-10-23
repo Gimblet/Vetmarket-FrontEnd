@@ -8,14 +8,15 @@ import {
   MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef,
   MatTable, MatTableDataSource
 } from '@angular/material/table';
-import {Producto} from '../../interface/producto/Producto';
+import {Producto} from '../../../../interface/producto/Producto';
 import {DomSanitizer} from '@angular/platform-browser';
-import {ProductosService} from '../../services/Producto/productos.service';
+import {ProductosService} from '../../../../services/Producto/productos.service';
 import {catchError} from 'rxjs';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatButton} from '@angular/material/button';
 import {Modal} from 'bootstrap';
 import {ToastrService} from 'ngx-toastr';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-listar',
@@ -31,7 +32,8 @@ import {ToastrService} from 'ngx-toastr';
     MatHeaderRowDef,
     MatRowDef,
     MatButton,
-    MatPaginator
+    MatPaginator,
+    RouterLink
   ],
   templateUrl: './listar.component.html',
   styleUrl: './listar.component.scss'
