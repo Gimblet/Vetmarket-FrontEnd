@@ -1,0 +1,46 @@
+<div class="p-3">
+  <mat-table #table [dataSource]="dataSource" class="table-secondary">
+    <mat-header-row *matHeaderRowDef="columns" class="table-info"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columns;"></mat-row>
+    <ng-container matColumnDef="ID">
+      <mat-header-cell *matHeaderCellDef> ID</mat-header-cell>
+      <mat-cell *matCellDef="let producto"> {{ producto.idProducto }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="Imagen">
+      <mat-header-cell *matHeaderCellDef> Imagen</mat-header-cell>
+      <mat-cell *matCellDef="let producto">
+        <img [src]="producto.imagen || 'https://placehold.co/50x50'" alt="Imagen" width="100px">
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="Nombre">
+      <mat-header-cell *matHeaderCellDef> Nombre</mat-header-cell>
+      <mat-cell *matCellDef="let producto"> {{ producto.nombre }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="Precio">
+      <mat-header-cell *matHeaderCellDef> Precio</mat-header-cell>
+      <mat-cell *matCellDef="let producto"> {{ producto.precio }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="Stock">
+      <mat-header-cell *matHeaderCellDef> Stock</mat-header-cell>
+      <mat-cell *matCellDef="let producto"> {{ producto.stock }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="Veterinario">
+      <mat-header-cell *matHeaderCellDef> Veterinario</mat-header-cell>
+      <mat-cell *matCellDef="let producto"> {{ producto.username }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="Acciones">
+      <mat-header-cell *matHeaderCellDef> Acciones</mat-header-cell>
+      <mat-cell *matCellDef="let producto">
+        <div>
+          <button mat-button [routerLink]="['/producto/actualizar', producto.idProducto]">Editar</button>
+          <button mat-button (click)="eliminarProducto(producto.idProducto)" style="color: red">Eliminar</button>
+        </div>
+      </mat-cell>
+    </ng-container>
+  </mat-table>
+  <mat-paginator
+    [length]="dataSource.data.length"
+    [pageSize]="20"
+    [pageSizeOptions]="[10, 20, 40]"
+  ></mat-paginator>
+</div>

@@ -6,11 +6,11 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
-import {ProductosService} from '../../services/Producto/productos.service';
+import {ProductosService} from '../../../../services/Producto/productos.service';
 import {Location} from '@angular/common';
 import {ToastrService} from 'ngx-toastr';
 import Swal from 'sweetalert2';
-import {AuthService} from '../../services/auth.service';
+import {AuthService} from '../../../../services/auth.service';
 import {Router} from '@angular/router';
 
 @Component({

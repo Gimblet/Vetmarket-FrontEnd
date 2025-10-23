@@ -1,10 +1,10 @@
 import {Routes} from '@angular/router';
-import {ProductoComponent} from './producto/producto.component'
+import {ProductoComponent} from './cliente/layout/producto/producto.component'
 import {LoginComponent} from './auth/login/login.component';
-import {DetallesComponent} from './producto/detalles/detalles.component';
-import {AgregarComponent} from './producto/agregar/agregar.component';
+import {DetallesComponent} from './paginas/veterinarios/productos/detalles/detalles.component';
+import {AgregarComponent} from './paginas/veterinarios/productos/agregar/agregar.component';
 import {ProductosComponent} from './paginas/veterinarios/productos/productos.component';
-import {ActualizarComponent} from './producto/actualizar/actualizar.component';
+import {ActualizarComponent} from './paginas/administrador/productos/actualizar/actualizar.component';
 import { ListaMascComponent } from './paginas/administrador/mascota/lista-masc/lista-masc.component';
 import { ListaServicioComponent } from './paginas/administrador/servicio/lista-servicio/lista-servicio.component';
 
@@ -25,14 +25,13 @@ export const routes: Routes = [
         component: AgregarComponent
       },
       {
-        path: 'actualizar/:id',
-        component: ActualizarComponent
-      },
-      {
         path: ':id',
         component: DetallesComponent
       },
-
+      {
+        path: 'actualizar/:id',
+        component: ActualizarComponent
+      },
     ]
   },
   // AgendarCita
@@ -45,6 +44,7 @@ export const routes: Routes = [
     path: 'ordenCompra',
     loadComponent: () => import('./paginas/clientes/orden-compra/orden-compra.component')
   },
+  // Mis Prooducto - Veterinario
   {
     path: 'misproductos',
     component: ProductosComponent,
@@ -58,6 +58,11 @@ export const routes: Routes = [
   {
     path: 'ordenes',
     loadComponent: () => import('./paginas/administrador/ordenes/ordenes.component')
+  },
+  // Productos - Admin
+  {
+    path: 'productos',
+    component: ListarComponent
   },
   // Listar mascotas - Admin
   { path: 'mascotas', component: ListaMascComponent},

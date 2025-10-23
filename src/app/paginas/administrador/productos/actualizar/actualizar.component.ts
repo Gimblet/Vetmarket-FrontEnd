@@ -6,13 +6,13 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
-import {ProductosService} from '../../services/Producto/productos.service';
+import {ProductosService} from '../../../../services/Producto/productos.service';
 import {Location} from '@angular/common';
 import {ToastrService} from 'ngx-toastr';
 import Swal from 'sweetalert2';
-import {AuthService} from '../../services/auth.service';
+import {AuthService} from '../../../../services/auth.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Producto} from '../../interface/producto/Producto';
+import {Producto} from '../../../../interface/producto/Producto';
 import {catchError} from 'rxjs';
 import {DomSanitizer} from '@angular/platform-browser';
 
@@ -67,7 +67,8 @@ export class ActualizarComponent implements OnInit {
 
     if (!this.authService.isAutheticated()) {
       this.router.navigate(['/login']);
-    } else if (this.rol !== 'VETERINARIO' || this.rol == null) {
+    } else if (this.rol !== 'VETERINARIO' && this.rol !== 'ADMIN' || this.rol == null) {
+      this.toastr.error('No tiene permisos para acceder a esta pagina', 'Error');
       this.router.navigate(['/']);
     }
 
