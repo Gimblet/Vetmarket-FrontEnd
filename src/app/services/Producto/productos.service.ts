@@ -66,4 +66,11 @@ export class ProductosService {
     });
   }
 
+  public eliminarProductoPorID(id: number): Observable<any> {
+    return this.httpClient.delete(this.API + '/eliminar', {
+      params: {id: id.toString()},
+      responseType: 'text',
+    })
+  }
+
 }

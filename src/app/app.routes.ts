@@ -6,6 +6,7 @@ import {AgregarComponent} from './producto/agregar/agregar.component';
 import {ProductosComponent} from './paginas/veterinarios/productos/productos.component';
 import {ActualizarComponent} from './producto/actualizar/actualizar.component';
 import { ListaMascComponent } from './paginas/administrador/mascota/lista-masc/lista-masc.component';
+import {ListarComponent} from './producto/listar/listar.component';
 
 export const routes: Routes = [
 
@@ -57,6 +58,10 @@ export const routes: Routes = [
   {
     path: 'ordenes',
     loadComponent: () => import('./paginas/administrador/ordenes/ordenes.component')
+  },
+  {
+    path: 'lista',
+    component: ListarComponent
   },
   // Listar mascotas - Admin
   { path: 'mascotas', component: ListaMascComponent}
