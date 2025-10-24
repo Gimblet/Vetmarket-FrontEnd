@@ -7,6 +7,7 @@ import {ProductosComponent} from './paginas/veterinarios/productos/productos.com
 import {ActualizarComponent} from './paginas/administrador/productos/actualizar/actualizar.component';
 import { ListaMascComponent } from './paginas/administrador/mascota/lista-masc/lista-masc.component';
 import { ListaServicioComponent } from './paginas/administrador/servicio/lista-servicio/lista-servicio.component';
+import { ListarComponent } from './paginas/administrador/productos/listar/listar.component';
 
 export const routes: Routes = [
 
@@ -24,7 +25,7 @@ export const routes: Routes = [
     path: 'usuarios',
     loadComponent: () => import('./paginas/administrador/usuarios/usuarios.component')
   },
-  
+
   // Producto -- Producto sera la ruta inicial
   {
     path: 'producto',

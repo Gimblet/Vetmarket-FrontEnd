@@ -90,4 +90,8 @@ export default class OrdenesComponent {
     this.ordenSeleccionada = null;
   }
 
+  obtenerTotalGanancias(): number {
+    return this.ordenes?.reduce((total, ord) => total + (ord.comisionTotal || 0), 0) || 0;
+  }
+
 }
