@@ -18,7 +18,7 @@ export class MascotaService {
 
   // buscar mascota por usuario ID
   obtenerListaMascotasPorUsuarioID(idUsuario: number): Observable<Mascota[]> {
-    return this.httpClient.get<Mascota[]>(`${this.apiUrl}/${idUsuario}`)
+    return this.httpClient.get<Mascota[]>(`${this.apiUrl}/usuario/${idUsuario}`);
   }
 
   // buscar mascota por su ID
