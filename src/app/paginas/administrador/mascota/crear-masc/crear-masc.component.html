@@ -15,8 +15,8 @@
         <button
           type="button"
           class="btn-close"
-          data-bs-dismiss="modal"
           aria-label="Cerrar"
+          (click)="cerrarModal()"
         ></button>
       </div>
 
@@ -131,11 +131,7 @@
           </div>
 
           <div class="mt-4 text-end">
-            <button
-              type="button"
-              class="btn btn-secondary me-2"
-              data-bs-dismiss="modal"
-            >
+            <button type="button" class="btn btn-secondary me-2" (click)="cerrarModal()">
               Cancelar
             </button>
             <button type="submit" class="btn btn-primary">

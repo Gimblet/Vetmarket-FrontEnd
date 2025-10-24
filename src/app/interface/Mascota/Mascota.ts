@@ -16,6 +16,6 @@ export interface Mascota {
     peso: number;
     especie: string;
     raza: string;
-    // usuario?: Usuario;
+    usuario?: Usuario;
     // idUsuario: number
 }

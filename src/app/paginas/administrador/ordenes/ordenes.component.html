@@ -30,7 +30,7 @@
         <tbody>
           <tr *ngFor="let ord of ordenes">
             <td class="ps-4 fw-bold text-primary">{{ (ord.numeroOrden + '').padStart(5,'0') }}</td>
-            <td>{{ ord.usuario?.nombre || 'Cliente desconocido' }}</td>
+            <td>{{ ord.usuario.nombre || 'Cliente desconocido' }}</td>
             <td>{{ ord.fecha | date:'dd/MM/yyyy' }}</td>
             <td class="fw-semibold">S/ {{ ord.total | number:'1.2-2' }}</td>
             <td class="text-center pe-4">
@@ -95,7 +95,7 @@
               <tbody>
                 <tr *ngFor="let det of detalleServicio">
                   <td>{{ det.nombre }}</td>
-                  <td>{{ det.mascota?.idMascota }}</td>
+                  <td>{{ det.mascota.idMascota }}</td>
                   <td>{{ det.fechaCita | date:'dd/MM/yyyy' }}</td>
                   <td class="fw-semibold">S/ {{ det.total | number:'1.2-2' }}</td>
                 </tr>

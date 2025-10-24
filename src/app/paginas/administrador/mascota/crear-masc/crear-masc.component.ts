@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Mascota, MascotaRequest } from '../../../../interface/Mascota/Mascota';
 import { MascotaService } from '../../../../services/mascota.service';
 import Swal from 'sweetalert2';
-import { Modal } from 'bootstrap';
 import { AuthService } from '../../../../services/auth.service';
 
 @Component({
@@ -16,6 +15,8 @@ import { AuthService } from '../../../../services/auth.service';
 export class CrearMascComponent implements OnInit, OnChanges{
   @Input() mascotaSeleccionado: Mascota | null = null
   @Output() mascotaCreado = new EventEmitter<void>()
+  @Output() cerrar = new EventEmitter<void>();
+
 
   formMascota: FormGroup
 
@@ -103,13 +104,10 @@ export class CrearMascComponent implements OnInit, OnChanges{
   }
 
   cerrarModal(): void {
-    const modalElement = document.getElementById('nuevaMascotaModal')
-    if (modalElement) {
-      const modal = Modal.getInstance(modalElement)
-      modal?.hide()
-    }
-    this.resetFormulario()
+    this.cerrar.emit();
+    this.resetFormulario();
   }
+
 
 
   // Metodo para resetear completamente el formulario

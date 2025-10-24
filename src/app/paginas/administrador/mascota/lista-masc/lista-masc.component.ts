@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CrearMascComponent } from '../crear-masc/crear-masc.component';
 
-import { Modal } from 'bootstrap';
 import Swal from 'sweetalert2';
 import { Mascota } from '../../../../interface/Mascota/Mascota';
 import { MascotaService } from '../../../../services/mascota.service';
@@ -39,18 +38,34 @@ export class ListaMascComponent implements OnInit {
     this.mascotaSeleccionado = null
     const modalElement = document.getElementById('nuevaMascotaModal')
     if(modalElement) {
-      const modal = new Modal(modalElement)
-      modal.show()
+      modalElement.classList.add('show')
+      modalElement.style.display = 'block'
+      modalElement.setAttribute('aria-hidden', 'false')
+      document.body.classList.add('modal-open')
+      const backdrop = document.createElement('div')
+      backdrop.className = 'modal-backdrop fade show'
+      document.body.appendChild(backdrop)
+    }
+  }
+
+  cerrarModal() {
+    const modalElement = document.getElementById('nuevaMascotaModal')
+    if (modalElement) {
+      modalElement.classList.remove('show')
+      modalElement.style.display = 'none'
+      modalElement.setAttribute('aria-hidden', 'true')
+      document.body.classList.remove('modal-open')
+
+      const backdrop = document.querySelector('.modal-backdrop')
+      if (backdrop) {
+        backdrop.remove()
+      }
     }
   }
 
   editarMascota(mascota: Mascota) {
     this.mascotaSeleccionado = {...mascota}
-    const modalElement = document.getElementById('nuevaMascotaModal')
-    if(modalElement) {
-      const modal = new Modal(modalElement)
-      modal.show()
-    }
+    this.abrirModal()
   }
 
   eliminarMascota(idMascota: number) {
@@ -64,11 +79,12 @@ export class ListaMascComponent implements OnInit {
     }).then((result) => {
       if(result.isConfirmed) {
         this.mascotaService.eliminarMascota(idMascota).subscribe(() => {
-          Swal.fire('¡Eliminado!', 'La mascota ha sido eliminado.', 'success')
+          Swal.fire('¡Eliminado!', 'La mascota ha sido eliminada.', 'success')
           this.cargarMascota()
         })
       }
     })
   }
+
 
 }

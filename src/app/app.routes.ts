@@ -12,6 +12,19 @@ export const routes: Routes = [
 
   // Auth
   { path: 'login', component: LoginComponent },
+  
+  // Registrar nuevo
+  {
+    path: 'registrar',
+    loadComponent: () => import('./auth/registrar/registrar.component')
+  },
+
+  // Usuario - Administrador 
+  {
+    path: 'usuarios',
+    loadComponent: () => import('./paginas/administrador/usuarios/usuarios.component')
+  },
+  
   // Producto -- Producto sera la ruta inicial
   {
     path: 'producto',
@@ -66,7 +79,9 @@ export const routes: Routes = [
   },
   // Listar mascotas - Admin
   { path: 'mascotas', component: ListaMascComponent},
-  
+ 
    // Listar servicios - Admin
   { path: 'servicios', component: ListaServicioComponent}
+
+
 ];
