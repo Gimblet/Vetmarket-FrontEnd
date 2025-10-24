@@ -15,8 +15,8 @@
         <button
           type="button"
           class="btn-close"
+          data-bs-dismiss="modal"
           aria-label="Cerrar"
-          (click)="cerrarModal()"
         ></button>
       </div>
 
@@ -111,14 +111,17 @@
               </div>
             </div>
 
-            <!-- ID Usuario 
-            <div class="col-md-6">
-              <label for="idUsuario" class="form-label">ID Usuario</label>
+            <!-- ID Usuario -->
+            <div class="col-md-6" *ngIf="!mascotaSeleccionado">
+              <label for="idUsuario" class="form-label">
+                {{ rolUsuario === 'ADMIN' ? 'ID del Cliente' : 'Tu ID de Usuario' }}
+              </label>
               <input
                 type="number"
                 id="idUsuario"
                 formControlName="idUsuario"
                 class="form-control"
+                [readonly]="rolUsuario !== 'ADMIN'"
                 min="1"
               />
               <div
@@ -127,11 +130,16 @@
               >
                 El ID de usuario es obligatorio.
               </div>
-            </div> -->
+            </div>
+
           </div>
 
           <div class="mt-4 text-end">
-            <button type="button" class="btn btn-secondary me-2" (click)="cerrarModal()">
+            <button
+              type="button"
+              class="btn btn-secondary me-2"
+              data-bs-dismiss="modal"
+            >
               Cancelar
             </button>
             <button type="submit" class="btn btn-primary">

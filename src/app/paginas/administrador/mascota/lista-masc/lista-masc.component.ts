@@ -6,6 +6,7 @@ import { CrearMascComponent } from '../crear-masc/crear-masc.component';
 import Swal from 'sweetalert2';
 import { Mascota } from '../../../../interface/Mascota/Mascota';
 import { MascotaService } from '../../../../services/mascota.service';
+import { Modal } from 'bootstrap';
 
 @Component({
   selector: 'app-lista-masc',
@@ -38,34 +39,18 @@ export class ListaMascComponent implements OnInit {
     this.mascotaSeleccionado = null
     const modalElement = document.getElementById('nuevaMascotaModal')
     if(modalElement) {
-      modalElement.classList.add('show')
-      modalElement.style.display = 'block'
-      modalElement.setAttribute('aria-hidden', 'false')
-      document.body.classList.add('modal-open')
-      const backdrop = document.createElement('div')
-      backdrop.className = 'modal-backdrop fade show'
-      document.body.appendChild(backdrop)
-    }
-  }
-
-  cerrarModal() {
-    const modalElement = document.getElementById('nuevaMascotaModal')
-    if (modalElement) {
-      modalElement.classList.remove('show')
-      modalElement.style.display = 'none'
-      modalElement.setAttribute('aria-hidden', 'true')
-      document.body.classList.remove('modal-open')
-
-      const backdrop = document.querySelector('.modal-backdrop')
-      if (backdrop) {
-        backdrop.remove()
-      }
+      const modal = new Modal(modalElement)
+      modal.show()
     }
   }
 
   editarMascota(mascota: Mascota) {
     this.mascotaSeleccionado = {...mascota}
-    this.abrirModal()
+    const modalElement = document.getElementById('nuevaMascotaModal')
+    if(modalElement) {
+      const modal = new Modal(modalElement)
+      modal.show()
+    } 
   }
 
   eliminarMascota(idMascota: number) {

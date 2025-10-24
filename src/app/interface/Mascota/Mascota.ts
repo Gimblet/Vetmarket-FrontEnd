@@ -1,4 +1,3 @@
-import { Usuario } from '../Usuario/Usuario';
 
 export interface MascotaCreateRequest {
   nombre: string;
