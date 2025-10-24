@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Mascota, MascotaRequest } from '../interface/Mascota/Mascota';
+import { Mascota, MascotaCreateRequest, MascotaUpdateRequest } from '../interface/Mascota/Mascota';
 
 
 @Injectable({
@@ -27,12 +27,12 @@ export class MascotaService {
   }
 
   // agregar una nueva mascota
-  agregarMascota(mascota: MascotaRequest): Observable<Mascota> {
+  agregarMascota(mascota: MascotaCreateRequest): Observable<Mascota> {
     return this.httpClient.post<Mascota>(`${this.apiUrl}`, mascota)
   }
 
   // editar una masota existente
-  editarMascota(id: number, mascota: MascotaRequest): Observable<Mascota> {
+  editarMascota(id: number, mascota: MascotaUpdateRequest): Observable<Mascota> {
     return this.httpClient.put<Mascota>(`${this.apiUrl}/${id}`, mascota)
   }
 
