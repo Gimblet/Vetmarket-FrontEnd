@@ -8,6 +8,7 @@ import {ActualizarComponent} from './paginas/administrador/productos/actualizar/
 import { ListaMascComponent } from './paginas/administrador/mascota/lista-masc/lista-masc.component';
 import { ListaServicioComponent } from './paginas/administrador/servicio/lista-servicio/lista-servicio.component';
 import { ListarComponent } from './paginas/administrador/productos/listar/listar.component';
+import { ListaMascClientComponent } from './paginas/clientes/mascota/lista-masc-client/lista-masc-client.component';
 
 export const routes: Routes = [
 
@@ -82,7 +83,8 @@ export const routes: Routes = [
   { path: 'mascotas', component: ListaMascComponent},
  
    // Listar servicios - Admin
-  { path: 'servicios', component: ListaServicioComponent}
+  { path: 'servicios', component: ListaServicioComponent},
 
-
+  // Listar mascotas - Cliente
+  { path: 'mismascotas', component: ListaMascClientComponent}
 ];
