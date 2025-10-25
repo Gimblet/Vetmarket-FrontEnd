@@ -9,6 +9,7 @@ import { ListaMascComponent } from './paginas/administrador/mascota/lista-masc/l
 import { ListaServicioComponent } from './paginas/administrador/servicio/lista-servicio/lista-servicio.component';
 import { ListarComponent } from './paginas/administrador/productos/listar/listar.component';
 import { ListarServicioVeterinarioComponent } from './paginas/veterinario/servicio/listar-servicio-veterinario/listar-servicio-veterinario.component';
+import { ListaMascClientComponent } from './paginas/clientes/mascota/lista-masc-client/lista-masc-client.component';
 
 export const routes: Routes = [
 
@@ -81,6 +82,9 @@ export const routes: Routes = [
   },
   // Listar mascotas - Admin
   { path: 'mascotas', component: ListaMascComponent},
+
+  // Lista mascota - Cliente
+  { path: 'mismascotas', component: ListaMascClientComponent},
 
    // Listar servicios - Admin
   { path: 'servicios', component: ListaServicioComponent},
