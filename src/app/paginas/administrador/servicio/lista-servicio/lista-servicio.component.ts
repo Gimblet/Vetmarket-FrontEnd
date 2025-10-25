@@ -5,12 +5,13 @@ import { ServicioResponseDTO } from '../../../../interface/Servicio/Servicio';
 import { ServiciosService } from '../../../../services/servicios.service';
 import Swal from 'sweetalert2';
 import { Modal } from 'bootstrap';
+import { CrearServicioComponent } from "../crear-servicio/crear-servicio.component";
 
 
 @Component({
   selector: 'app-lista-servicio',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, CrearServicioComponent],
   templateUrl: './lista-servicio.component.html',
   styleUrl: './lista-servicio.component.scss'
 })
@@ -70,5 +71,20 @@ servicios: ServicioResponseDTO[] = []
       }
     })
   }
+
+  // Dentro de ListaServicioComponent
+onServicioGuardado(): void {
+  // Cierra el modal
+  const modalElement = document.getElementById('nuevoServicioModal');
+  if (modalElement) {
+    const modal = Modal.getInstance(modalElement);
+    if (modal) {
+      modal.hide();
+    }
+  }
+
+  // Recarga la lista
+  this.cargarServicio();
+}
 
 }

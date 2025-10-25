@@ -1,1 +1,126 @@
-<p>crear-servicio works!</p>
+<!-- Modal para Crear / Editar Servicio -->
+<div
+  class="modal fade"
+  id="nuevoServicioModal"
+  tabindex="-1"
+  aria-hidden="true"
+  (hidden.bs.modal)="resetFormulario()"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          {{ servicioSeleccionado ? "Editar Servicio" : "Nuevo Servicio" }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Cerrar"
+        ></button>
+      </div>
+
+      <div class="modal-body">
+        <form [formGroup]="formServicio" (ngSubmit)="guardarServicio()">
+          <div class="row g-3">
+
+            <!-- Nombre del Servicio -->
+            <div class="col-md-6">
+              <label for="nombre" class="form-label">Nombre del Servicio</label>
+              <input
+                type="text"
+                id="nombre"
+                formControlName="nombre"
+                class="form-control"
+              />
+              <div
+                *ngIf="
+                  formServicio.get('nombre')?.invalid &&
+                  formServicio.get('nombre')?.touched
+                "
+                class="text-danger"
+              >
+                <small>
+                {{
+                    formServicio.get('nombre')?.errors?.['required']
+                    ? 'El nombre es obligatorio.'
+                    : formServicio.get('nombre')?.errors?.['minlength']
+                        ? 'El nombre debe tener al menos 3 caracteres.'
+                        : ''
+                }}
+                </small>
+              </div>
+            </div>
+
+
+
+            <!-- Precio -->
+            <div class="col-md-6">
+              <label for="precio" class="form-label">Precio</label>
+              <input
+                type="number"
+                step="0.01"
+                id="precio"
+                formControlName="precio"
+                class="form-control"
+              />
+              <div
+                *ngIf="
+                  formServicio.get('precio')?.invalid &&
+                  formServicio.get('precio')?.touched
+                "
+                class="text-danger"
+              >
+                El precio es obligatorio y debe ser >= 0.01.
+              </div>
+            </div>
+
+
+
+            <!-- Descripción -->
+            <div class="col-md-12">
+              <label for="descripcion" class="form-label">Descripción</label>
+              <textarea
+                id="descripcion"
+                formControlName="descripcion"
+                class="form-control"
+                rows="3"
+                placeholder="Descripción del servicio..."
+              ></textarea>
+            </div>
+
+
+
+            <!-- Subir Imagen -->
+            <div class="col-md-12 mt-3">
+              <label for="imagenServicio" class="form-label">Imagen del Servicio</label>
+              <input
+                type="file"
+                id="imagenServicio"
+                class="form-control"
+                (change)="onFileSelected($event)"
+                accept="image/*"
+              />
+              <small class="text-muted">La imagen se subirá al guardar.</small>
+            </div>
+
+          </div>
+
+          <!-- Botones -->
+          <div class="mt-4 text-end">
+            <button
+              type="button"
+              class="btn btn-secondary me-2"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-primary">
+              {{ servicioSeleccionado ? "Actualizar" : "Guardar" }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
