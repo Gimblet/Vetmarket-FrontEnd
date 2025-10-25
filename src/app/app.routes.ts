@@ -82,8 +82,14 @@ export const routes: Routes = [
   // Listar mascotas - Admin
   { path: 'mascotas', component: ListaMascComponent},
  
-   // Listar servicios - Admin
+  // Listar servicios - Admin
   { path: 'servicios', component: ListaServicioComponent},
+
+  // Carrito de compras
+  {
+    path: 'carrito',
+    loadComponent: () => import('./paginas/clientes/carrito/carrito.component')
+  },
 
   // Listar mascotas - Cliente
   { path: 'mismascotas', component: ListaMascClientComponent}

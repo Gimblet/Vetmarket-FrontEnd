@@ -8,6 +8,7 @@ import {MatTooltip} from '@angular/material/tooltip';
 import {Location} from '@angular/common';
 import {AuthService} from '../../../../services/auth.service';
 import {MatButton} from '@angular/material/button';
+import { CarritoService } from '../../../../services/carrito.service';
 
 @Component({
   selector: 'app-detalles',
@@ -30,7 +31,9 @@ export class DetallesComponent implements OnInit {
 
   constructor(
     private sanitizer: DomSanitizer,
-    private location: Location
+    private location: Location,
+    private carrito:CarritoService,
+    private auth:AuthService
   ) {
     this.activatedRoute.params.subscribe((params) => {
       this.productId.set(params['id']);
@@ -74,6 +77,23 @@ export class DetallesComponent implements OnInit {
 
   retroceder(): void {
     this.location.back();
+  }
+
+
+  agregarAlCarrito(cantidad: number) {
+    const token = this.auth.getToken();
+    const idUsuario = Number(this.auth.getUserId());
+
+    if (!token || !idUsuario) {
+      alert('Por favor inicia sesión para agregar productos al carrito.');
+      return;
+    }
+
+    this.carrito.agregarProducto(token, idUsuario, this.producto().idProducto, cantidad)
+      .subscribe({
+        next: () => alert(`"${this.producto().nombre}" fue añadido al carrito 🛒`),
+        error: (err) => console.error('Error al agregar al carrito:', err)
+      });
   }
 
 }

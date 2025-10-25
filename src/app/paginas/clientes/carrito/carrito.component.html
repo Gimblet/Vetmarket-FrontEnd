@@ -1,0 +1,52 @@
+<div class="container mt-5 mb-5">
+  <div class="card shadow p-4 mx-auto" style="max-width: 900px;">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h3 class="mb-0">🛒 Carrito de Compras</h3>
+    </div>
+
+    <div *ngIf="carrito.length > 0; else carritoVacio">
+      <div class="table-responsive">
+        <table class="table align-middle text-center">
+          <thead class="table-light">
+            <tr>
+              <th>Producto</th>
+              <th>Cantidad</th>
+              <th>Precio</th>
+              <th>Total</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of carrito">
+              <td>{{ item.nombre }}</td>
+              <td>{{ item.cantidad }}</td>
+              <td>S/ {{ item.precio | number:'1.2-2' }}</td>
+              <td>S/ {{ item.total | number:'1.2-2' }}</td>
+              <td>
+                <button class="btn btn-sm btn-outline-danger"
+                        (click)="eliminarProducto(item.idProducto!, item.nombre)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="d-flex justify-content-end mt-4">
+        <div class="text-end">
+          <h5><strong>Total:</strong> S/ {{ totalGeneral | number:'1.2-2' }}</h5>
+          <button class="btn btn-primary mt-3 w-100" (click)="generarOrden()">
+            Generar Orden
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #carritoVacio>
+      <div class="text-center py-4">
+        <h5>Tu carrito está vacío</h5>
+      </div>
+    </ng-template>
+  </div>
+</div>

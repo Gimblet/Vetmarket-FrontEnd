@@ -42,14 +42,15 @@ export class OrdenCompraService {
     const headers = this.getAuthHeaders(token);
     return this.http.get<DetalleVentaDTO[]>(this.apiUrl+'/ordenCompra/listaVentas', { headers, params: { idUsuario } });
   }
-  
-  //Procesar la orden de compra
-  procesarOrden(token: string, detalles: DetalleDto[]): Observable<string> { 
+
+  procesarOrdenCarrito(token: string, idUsuario: number): Observable<string> {
     const headers = this.getAuthHeaders(token);
-    
-    return this.http.post(this.apiUrl+'/ordenCompra/procesar', detalles, { 
-      headers, 
-      responseType: 'text' 
-    });
+    return this.http.post(this.apiUrl+'/ordenCompra/procesarCarrito', null, { headers, params:{idUsuario}, responseType: 'text' });
   }
+  
+  procesarOrdenCita(token: string, idUsuario: number, idServicio: number, idMascota: number, fechaCita: string): Observable<string> {
+    const headers = this.getAuthHeaders(token);
+    return this.http.post(this.apiUrl+'/procesarCita', null, { headers, params:{idUsuario,idServicio,idMascota,fechaCita}, responseType: 'text'});
+  }
+
 }
