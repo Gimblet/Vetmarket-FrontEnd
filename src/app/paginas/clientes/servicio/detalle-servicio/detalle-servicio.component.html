@@ -1,0 +1,46 @@
+<div class="container py-4">
+  <!-- Botón "Volver" alineado a la izquierda -->
+  <a routerLink="/servicio" class="btn btn-sm btn-outline-secondary mb-4">
+    ← Volver
+  </a>
+
+  @if (servicio(); as s) {
+    <!-- Tarjeta centrada horizontalmente -->
+    <div class="d-flex justify-content-center">
+      <mat-card appearance="outlined" class="detalle-servicio-card">
+        <mat-card-header class="text-center pb-2">
+          <mat-card-title class="fw-bold text-primary">{{ s.nombre }}</mat-card-title>
+          <mat-card-subtitle class="text-muted">
+            <strong>Precio:</strong> S/ {{ s.precio | number:'1.2-2' }}
+          </mat-card-subtitle>
+        </mat-card-header>
+
+        <div class="imagen-contenedor">
+          <img
+            mat-card-image
+            [src]="s.imagenUrl || './assets/images/default.jpg'"
+            alt="{{ s.nombre }}"
+            (error)="onImageError($event)"
+          />
+        </div>
+
+        <mat-card-content class="text-center px-4">
+          <p class="mb-0">
+            <strong>Descripción:</strong><br />
+            <span class="text-muted">{{ s.descripcion || 'No disponible' }}</span>
+          </p>
+        </mat-card-content>
+
+        <mat-card-actions class="d-flex justify-content-center pb-3">
+          <button mat-raised-button color="primary" (click)="agendarCita()">
+            Agendar Cita
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  } @else {
+    <div class="d-flex justify-content-center my-5">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  }
+</div>

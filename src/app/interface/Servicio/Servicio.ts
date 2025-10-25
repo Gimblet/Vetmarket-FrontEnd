@@ -31,3 +31,7 @@ export interface Servicio{
 
   detServicio?: DetalleServicio
 }
+//Agregar Url Imagen
+export interface ServicioResponseDTOWithImage extends ServicioResponseDTO {
+  imagenUrl?: string
+}
