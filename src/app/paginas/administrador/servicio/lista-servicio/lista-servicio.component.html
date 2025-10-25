@@ -50,3 +50,7 @@
 </div>
 
 <!-- Modal para Crear/Editar -->
+<app-crear-servicio
+  [servicioSeleccionado]="servicioSeleccionado"
+  (servicioGuardado)="onServicioGuardado()"
+></app-crear-servicio>
