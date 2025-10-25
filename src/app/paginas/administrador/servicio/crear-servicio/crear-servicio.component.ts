@@ -5,6 +5,8 @@ import { ServiciosService } from '../../../../services/servicios.service';
 import Swal from 'sweetalert2';
 import { ServicioResponseDTO } from '../../../../interface/Servicio/Servicio';
 import { finalize } from 'rxjs';
+import { Modal } from 'bootstrap';
+import { AuthService } from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-crear-servicio',
@@ -24,7 +26,8 @@ export class CrearServicioComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private serviciosService: ServiciosService
+    private serviciosService: ServiciosService,
+    private authService: AuthService
   ) {
     this.formServicio = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(3)]],
@@ -72,8 +75,17 @@ export class CrearServicioComponent implements OnInit {
     formData.append('nombre', this.formServicio.get('nombre')?.value);
     formData.append('descripcion', this.formServicio.get('descripcion')?.value);
     formData.append('precio', this.formServicio.get('precio')?.value.toString());
-    const usuarioId = 1; // 🔥 Reemplaza con el ID real del usuario autenticado
-    formData.append('usuarioId', usuarioId.toString());
+
+    // CREAR : incluir usuarioId
+    if (!this.servicioSeleccionado) {
+      const usuarioId = this.authService.getUserId()
+      if (!usuarioId) {
+        Swal.fire('Error', 'Debes iniciar sesión.', 'error')
+        this.isLoading = false
+        return
+      }
+      formData.append('usuarioId', usuarioId)
+    }
 
     if (this.selectedFile) {
       formData.append('img', this.selectedFile);
@@ -89,8 +101,8 @@ export class CrearServicioComponent implements OnInit {
       next: () => {
         const mensaje = this.servicioSeleccionado ? 'actualizado' : 'creado';
         Swal.fire('¡Éxito!', `Servicio ${mensaje} correctamente.`, 'success');
-        this.resetFormulario();
         this.servicioGuardado.emit(); // Notifica al padre
+        this.cerrarModal()
       },
       error: (err) => {
         console.error('Error al guardar el servicio:', err);
@@ -105,5 +117,14 @@ export class CrearServicioComponent implements OnInit {
     this.servicioSeleccionado = null;
     this.formServicio.markAsPristine();
     this.formServicio.markAsUntouched();
+  }
+
+  cerrarModal(): void {
+    const modalElement = document.getElementById('nuevoServicioModal');
+        if (modalElement) {
+          const modal = Modal.getInstance(modalElement);
+          modal?.hide();
+        }
+        this.resetFormulario();
   }
 }
