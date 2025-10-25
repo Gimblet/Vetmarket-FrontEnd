@@ -10,6 +10,7 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {AuthService} from '../../../services/auth.service';
 import {ProductosService} from '../../../services/Producto/productos.service';
 import {Producto} from '../../../interface/producto/Producto';
+import {ToastrService} from 'ngx-toastr';
 @Component({
   selector: 'app-productos',
   imports: [
@@ -39,7 +40,8 @@ export class ProductosComponent implements OnInit {
 
   constructor(
     public sanitizer: DomSanitizer,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService,
   ) {
   }
 
@@ -91,6 +93,21 @@ export class ProductosComponent implements OnInit {
         const url = URL.createObjectURL(blob);
         producto.imagen = this.sanitizer.bypassSecurityTrustUrl(url);
       });
+  }
+
+  eliminarProducto(id: number) {
+    this.productoService.eliminarProductoPorID(id)
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          throw err;
+        })
+      ).subscribe({
+      next: () => {
+        this.toastr.success('Producto Eliminado con exito', 'ESTADO');
+        this.obtenerProductos();
+      }
+    });
   }
 
   public getPaginatorData(event: PageEvent): PageEvent {
