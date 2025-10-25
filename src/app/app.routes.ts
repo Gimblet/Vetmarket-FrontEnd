@@ -8,8 +8,10 @@ import {ActualizarComponent} from './paginas/administrador/productos/actualizar/
 import { ListaMascComponent } from './paginas/administrador/mascota/lista-masc/lista-masc.component';
 import { ListaServicioComponent } from './paginas/administrador/servicio/lista-servicio/lista-servicio.component';
 import { ListarComponent } from './paginas/administrador/productos/listar/listar.component';
-import { ListarServicioVeterinarioComponent } from './paginas/veterinario/servicio/listar-servicio-veterinario/listar-servicio-veterinario.component';
 import { ListaMascClientComponent } from './paginas/clientes/mascota/lista-masc-client/lista-masc-client.component';
+import { ListarServicioVeterinarioComponent } from './paginas/veterinarios/servicio/listar-servicio-veterinario/listar-servicio-veterinario.component';
+import { ListarServicioClienteComponent } from './paginas/clientes/servicio/listar-servicio-cliente/listar-servicio-cliente.component';
+import { DetalleServicioComponent } from './paginas/clientes/servicio/detalle-servicio/detalle-servicio.component';
 
 export const routes: Routes = [
 
@@ -89,5 +91,11 @@ export const routes: Routes = [
    // Listar servicios - Admin
   { path: 'servicios', component: ListaServicioComponent},
 
-  { path: 'misservicios', component: ListarServicioVeterinarioComponent}
+  { path: 'misservicios', component: ListarServicioVeterinarioComponent},
+
+  // listar servicios - Cliente
+  { path: 'servicio', component: ListarServicioClienteComponent},
+  // Detalle de un servicio
+  { path: 'servicio/:id', component: DetalleServicioComponent }
+
 ];

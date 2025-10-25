@@ -1,0 +1,56 @@
+<section class="services-section">
+  <h3 class="text-center mb-4">Servicios Disponibles</h3>
+  <hr class="divider" />
+
+  <div class="container card_viewholder">
+    <div class="row g-4 justify-content-center">
+      @for (servicio of servicios().slice(lowIndex, highIndex); track servicio.idServicio) {
+        <div class="col-12 col-sm-6 col-lg-4 d-flex">
+          <mat-card appearance="outlined" class="servicio-card flex-fill">
+            <mat-card-header>
+              <mat-card-title class="fw-bold text-truncate">
+                {{ servicio.nombre }}
+              </mat-card-title>
+              <mat-card-subtitle class="text-primary fw-bold">
+                S/ {{ servicio.precio | number:'1.2-2' }}
+              </mat-card-subtitle>
+            </mat-card-header>
+
+            <div class="servicio-imagen-container">
+              <img
+                mat-card-image
+                [src]="servicio.imagenUrl || './assets/images/default.jpg'"
+                alt="{{ servicio.nombre }}"
+                (error)="onImageError($event)"
+              />
+            </div>
+
+            <mat-card-content>
+              <p class="text-muted mb-0 descripcion">
+                {{ servicio.descripcion || 'Sin descripción' }}
+              </p>
+            </mat-card-content>
+
+            <mat-card-actions class="mt-auto">
+              <button
+                mat-raised-button
+                color="primary"
+                class="w-100"
+                [routerLink]="['/servicio', servicio.idServicio]"
+              >
+                Ver Detalles
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      }
+    </div>
+
+    <mat-paginator
+      [length]="serviciosSignal().length"
+      [pageSize]="pageSize"
+      (page)="getPaginatorData($event)"
+      class="mt-4"
+    ></mat-paginator>
+  </div>
+</section>

@@ -1,0 +1,71 @@
+.detalle-servicio-card {
+  max-width: 750px; /* antes 900px */
+  width: 100%;
+  border-radius: 18px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  background-color: #ffffff;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  padding-bottom: 0.8rem;
+}
+
+.detalle-servicio-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Imagen más proporcionada */
+.imagen-contenedor {
+  display: flex;
+  justify-content: center;
+  background-color: #f7f7f7;
+  padding: 1.25rem;
+}
+
+.imagen-contenedor img {
+  width: 100%;
+  max-width: 420px; /* antes 480px */
+  height: auto;
+  border-radius: 14px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.imagen-contenedor img:hover {
+  transform: scale(1.02);
+}
+
+/* Contenido con tamaño medio */
+mat-card-header {
+  padding: 1.25rem 1rem 0.5rem;
+}
+
+mat-card-content {
+  padding: 1.25rem 1.75rem;
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+mat-card-title {
+  font-size: 1.6rem; /* un poco más moderado */
+}
+
+mat-card-subtitle {
+  font-size: 1.05rem;
+}
+
+mat-card-actions {
+  padding-top: 0.5rem;
+}
+
+button[mat-raised-button] {
+  font-size: 1rem;
+  padding: 0.55rem 1.4rem;
+  border-radius: 8px;
+}
+
+/* Centrar el header del mat-card */
+::ng-deep .mat-mdc-card-header {
+  margin: 0 auto;
+  text-align: center;
+}
