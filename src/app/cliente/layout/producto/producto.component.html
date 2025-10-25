@@ -2,6 +2,15 @@
 <section class="products-section">
   <h3>Productos</h3>
   <hr style="width: 55%; border: 1px solid #000000;">
+  <div style="display: flex; gap: 1rem; align-items: center">
+    <button class="bi-arrow-clockwise btn btn-outline-secondary" (click)="reload()"></button>
+    <form (ngSubmit)="buscarProducto(input.value)">
+      <nav style="display: flex; justify-content: space-between" class="btn-group">
+        <input class="form-control" type="text" placeholder="Buscar" #input>
+        <input class="btn btn-secondary" type="submit" value="Confirmar">
+      </nav>
+    </form>
+  </div>
   <div class="card_viewholder">
     @if (listaProductos().length === 1 && listaProductos()[0].nombre === "ERROR") {
       <h4 class="alert alert-danger">Ocurrio un problema, intentelo de nuevo mas tarde</h4>

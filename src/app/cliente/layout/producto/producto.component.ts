@@ -83,6 +83,22 @@ export class ProductoComponent implements OnInit {
       });
   }
 
+  buscarProducto(nombre: string) {
+    this.productoService.obtenerProductosPorNombre(nombre)
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          throw err;
+        })
+      )
+      .subscribe((productos: Array<Producto>) => {
+        productos.forEach(producto => {
+          this.obtenerImagen(producto);
+        })
+        this.listaProductos.set(productos);
+      })
+  }
+
   public getPaginatorData(event: PageEvent): PageEvent {
     this.lowIndex = event.pageIndex * this.pageSize;
     this.highIndex = this.lowIndex + event.pageSize;
@@ -103,5 +119,9 @@ export class ProductoComponent implements OnInit {
       next: () => alert(`"${producto.nombre}" fue añadido al carrito 🛒`),
       error: (err) => console.error('Error al agregar al carrito:', err)
     });
+  }
+
+  reload() {
+    window.location.reload();
   }
 }

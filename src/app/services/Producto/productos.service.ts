@@ -17,6 +17,10 @@ export class ProductosService {
     return this.httpClient.get<Array<Producto>>(this.API + '/listar');
   }
 
+  public obtenerProductosPorNombre(nombreProducto: string): Observable<any> {
+    return this.httpClient.get<Array<Producto>>(this.API + '/buscar', {params: {nombre: nombreProducto}});
+  }
+
   public obtenerProductosPorVeterinario(id: number | null | string): Observable<any> {
     // @ts-ignore
     return this.httpClient.get<Array<Producto>>(this.API + '/buscar', {params: {veterinario: id.toString()}});
