@@ -1,0 +1,50 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="title">Mis Mascotas</h3>
+    <button class="btn btn-success create-btn" (click)="abrirModal()">Nueva Mascota</button>
+  </div>
+
+  <div *ngIf="!mascotas || mascotas.length === 0" class="alert alert-info">
+    No tienes mascotas registradas.
+  </div>
+
+  <div class="table-container-full" *ngIf="mascotas && mascotas.length > 0">
+    <table class="table table-striped table-hover custom-table align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+          <th>Edad</th>
+          <th>Peso</th>
+          <th>Especie</th>
+          <th>Raza</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let mascota of mascotas; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ mascota.nombre }}</td>
+          <td>{{ mascota.edad }}</td>
+          <td>{{ mascota.peso }}</td>
+          <td>{{ mascota.especie }}</td>
+          <td>{{ mascota.raza }}</td>
+          <td>
+            <button class="btn btn-warning me-2" (click)="editarMascota(mascota)">
+              <i class="bi bi-pencil"></i>
+            </button>
+            <button class="btn btn-danger" (click)="eliminarMascota(mascota.idMascota)">
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal reutilizado -->
+<app-crear-masc
+  [mascotaSeleccionado]="mascotaSeleccionado"
+  (mascotaCreado)="cargarMascotas()">
+</app-crear-masc>

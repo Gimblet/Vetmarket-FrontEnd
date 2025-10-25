@@ -3,10 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CrearMascComponent } from '../crear-masc/crear-masc.component';
 
-import { Modal } from 'bootstrap';
 import Swal from 'sweetalert2';
 import { Mascota } from '../../../../interface/Mascota/Mascota';
 import { MascotaService } from '../../../../services/mascota.service';
+import { Modal } from 'bootstrap';
 
 @Component({
   selector: 'app-lista-masc',
@@ -50,7 +50,7 @@ export class ListaMascComponent implements OnInit {
     if(modalElement) {
       const modal = new Modal(modalElement)
       modal.show()
-    }
+    } 
   }
 
   eliminarMascota(idMascota: number) {
@@ -64,11 +64,12 @@ export class ListaMascComponent implements OnInit {
     }).then((result) => {
       if(result.isConfirmed) {
         this.mascotaService.eliminarMascota(idMascota).subscribe(() => {
-          Swal.fire('¡Eliminado!', 'La mascota ha sido eliminado.', 'success')
+          Swal.fire('¡Eliminado!', 'La mascota ha sido eliminada.', 'success')
           this.cargarMascota()
         })
       }
     })
   }
+
 
 }

@@ -9,6 +9,9 @@ import {NgForOf, SlicePipe} from '@angular/common';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {RouterLink} from "@angular/router";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import { CarritoService } from '../../../services/carrito.service';
+import { AuthService } from '../../../services/auth.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-producto',
@@ -20,6 +23,7 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
     SlicePipe,
     NgForOf,
     MatProgressSpinner,
+    FormsModule,
   ],
   templateUrl: './producto.component.html',
   styleUrl: './producto.component.scss'
@@ -34,12 +38,18 @@ export class ProductoComponent implements OnInit {
   public lowIndex = 0;
   public highIndex = 8;
 
+  rol: string | null = null;
+
   constructor(
     public sanitizer: DomSanitizer,
+    //Add al carrito
+    private carrito:CarritoService,
+    private auth:AuthService
   ) {
   }
 
   ngOnInit(): void {
+    this.auth.rol$.subscribe((r) => this.rol = r);
     this.obtenerProductos();
   }
 
@@ -79,4 +89,19 @@ export class ProductoComponent implements OnInit {
     return event;
   }
 
+  //metodo para agregar al carrito
+  agregarAlCarrito(producto: Producto, cantidad:number) {
+    const token = this.auth.getToken();
+    const idUsuario = Number(this.auth.getUserId());
+
+    if (!token || !idUsuario) {
+      alert('Por favor inicia sesión para agregar productos al carrito.');
+      return;
+    }
+
+    this.carrito.agregarProducto(token, idUsuario, producto.idProducto, cantidad).subscribe({
+      next: () => alert(`"${producto.nombre}" fue añadido al carrito 🛒`),
+      error: (err) => console.error('Error al agregar al carrito:', err)
+    });
+  }
 }

@@ -20,8 +20,8 @@ export default class AgendarCitaComponent {
   idUsuario: number = 0;
   
   idServicio: number = 1; // debo obtener el id del servicio
-  idMascota: number = 101;// obtener la mascota con el servicio macota
-  fechaCitaString: string = '';
+  idMascota: number = 0;
+    fechaCitaString: string = '';
   minDate:string;
   
   usuario: Usuario | null = null;
@@ -58,10 +58,10 @@ export default class AgendarCitaComponent {
     }
   }
 
-    cargarDatosIniciales(id: number): void {
-      //llamar a los servicios de usuarios y mascota
-     console.log("Cargando datos para el usuario: " + id);
-     this.usuario = { idUsuario: id, nombre: "Usuario Test" };
+  cargarDatosIniciales(id: number): void {
+    //llamar a los servicios de usuarios y mascota
+    this.usuario
+    this.mascotasDisponibles = [];
   }
 
   agendarCita(): void {

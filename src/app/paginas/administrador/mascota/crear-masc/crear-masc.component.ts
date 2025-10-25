@@ -1,7 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Mascota, MascotaRequest } from '../../../../interface/Mascota/Mascota';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { Mascota, MascotaCreateRequest, MascotaUpdateRequest,  } from '../../../../interface/Mascota/Mascota';
 import { MascotaService } from '../../../../services/mascota.service';
 import Swal from 'sweetalert2';
 import { Modal } from 'bootstrap';
@@ -11,35 +24,39 @@ import { AuthService } from '../../../../services/auth.service';
   selector: 'app-crear-masc',
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './crear-masc.component.html',
-  styleUrl: './crear-masc.component.scss'
+  styleUrl: './crear-masc.component.scss',
 })
-export class CrearMascComponent implements OnInit, OnChanges{
-  @Input() mascotaSeleccionado: Mascota | null = null
-  @Output() mascotaCreado = new EventEmitter<void>()
+export class CrearMascComponent implements OnInit, OnChanges {
+  @Input() mascotaSeleccionado: Mascota | null = null;
+  @Output() mascotaCreado = new EventEmitter<void>();
 
-  formMascota: FormGroup
+  formMascota: FormGroup;
+  rolUsuario: string | null = null;
 
   constructor(
     private fb: FormBuilder,
     private mascotaService: MascotaService,
     private authService: AuthService
   ) {
-      this.formMascota = this.fb.group({
-        nombre: ['', [Validators.required]],
-        edad: ['', [Validators.required, Validators.min(0)]],
-        peso: ['', [Validators.required, Validators.min(0.1)]],
-        especie: ['', [Validators.required]],
-        raza: ['', [Validators.required]],
-        // idUsuario: [null, [Validators.required]]
-      })
-    }
-  
+    this.formMascota = this.fb.group({
+      nombre: ['', [Validators.required]],
+      edad: ['', [Validators.required, Validators.min(0)]],
+      peso: ['', [Validators.required, Validators.min(0.1)]],
+      especie: ['', [Validators.required]],
+      raza: ['', [Validators.required]],
+      idUsuario: [{ value: '', disabled: true }, [Validators.required]],
+    });
+  }
+
   ngOnInit(): void {
-    
+    this.rolUsuario = localStorage.getItem('rol');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['mascotaSeleccionado']) {
+      const usuarioId = this.authService.getUserId();
+      const rol = this.rolUsuario;
+
       if (this.mascotaSeleccionado) {
         // Editar: Cargar los datos en el formulario
         this.formMascota.patchValue({
@@ -47,74 +64,93 @@ export class CrearMascComponent implements OnInit, OnChanges{
           edad: this.mascotaSeleccionado.edad,
           peso: this.mascotaSeleccionado.peso,
           especie: this.mascotaSeleccionado.especie,
-          raza: this.mascotaSeleccionado.raza,
-          // idUsuario: this.mascotaSeleccionado.idUsuario
-        })
+          raza: this.mascotaSeleccionado.raza
+        });
+
+        this.formMascota.get('idUsuario')?.disable();
       } else {
         // Crear: limpiar formulario
-        this.formMascota.reset()
+        this.formMascota.reset();
+
+        if (rol == 'ADMIN') {
+          // ADMIN
+          this.formMascota.get('idUsuario')?.enable();
+        } else if (rol == 'CLIENTE' && usuarioId) {
+          // CLIENTE
+          this.formMascota.get('idUsuario')?.disable();
+          this.formMascota.patchValue({ idUsuario: +usuarioId });
+        }
       }
     }
   }
 
   guardarMascota() {
-    if (this.formMascota.invalid) {
-      this.formMascota.markAllAsTouched();
-      Swal.fire('Error', 'Por favor, completa los campos obligatorios.', 'warning');
-      return;
-    }
+  if (this.formMascota.invalid) {
+    this.formMascota.markAllAsTouched();
+    Swal.fire('Error', 'Por favor, completa los campos obligatorios.', 'warning');
+    return;
+  }
 
-    // Obtener el ID del usuario logueado
-    const usuarioId = this.authService.getUserId();
-    if (!usuarioId) {
-      Swal.fire('Error', 'No se encontró el ID del usuario. Por favor, inicia sesión nuevamente.', 'error');
-      return;
-    }
+  const formValue = this.formMascota.getRawValue();
 
-    const request: MascotaRequest = {
-    ...this.formMascota.value,
-    idUsuario: +usuarioId // convertir a número
-  };
+  if (this.mascotaSeleccionado) {
+    // EDITAR: usar MascotaUpdateRequest (sin idUsuario)
+    const request: MascotaUpdateRequest = {
+      nombre: formValue.nombre,
+      edad: formValue.edad,
+      peso: formValue.peso,
+      especie: formValue.especie,
+      raza: formValue.raza
+    };
 
-  const accion = this.mascotaSeleccionado
-    ? this.mascotaService.editarMascota(this.mascotaSeleccionado.idMascota, request)
-    : this.mascotaService.agregarMascota(request);
-
-    accion.subscribe({
+    this.mascotaService.editarMascota(this.mascotaSeleccionado.idMascota, request).subscribe({
       next: (mascotaGuardado) => {
-        // Mostrar SweetAlert de éxito
-        Swal.fire(
-          '¡Éxito!',
-          `Mascota "${mascotaGuardado.nombre}" se guardó correctamente.`,
-          'success'
-        )
-        this.mascotaCreado.emit()
-        this.cerrarModal()
+        Swal.fire('¡Éxito!', `Mascota "${mascotaGuardado.nombre}" se actualizó correctamente.`, 'success');
+        this.mascotaCreado.emit();
+        this.cerrarModal();
+      },
+      error: (err) => {
+        console.error('Error al actualizar mascota:', err);
+        Swal.fire('Error', 'No se pudo actualizar la mascota. Revisa los datos e intenta de nuevo.', 'error');
+      }
+    });
+  } else {
+    // CREAR: usar MascotaCreateRequest
+    const request: MascotaCreateRequest = {
+      nombre: formValue.nombre,
+      edad: formValue.edad,
+      peso: formValue.peso,
+      especie: formValue.especie,
+      raza: formValue.raza,
+      idUsuario: formValue.idUsuario
+    };
+
+    this.mascotaService.agregarMascota(request).subscribe({
+      next: (mascotaGuardado) => {
+        Swal.fire('¡Éxito!', `Mascota "${mascotaGuardado.nombre}" se guardó correctamente.`, 'success');
+        this.mascotaCreado.emit();
+        this.cerrarModal();
       },
       error: (err) => {
         console.error('Error al guardar mascota:', err);
-        Swal.fire(
-          'Error',
-          'No se pudo guardar la mascota. Revisa los datos e intenta de nuevo.',
-          'error'
-        )
+        Swal.fire('Error', 'No se pudo guardar la mascota. Revisa los datos e intenta de nuevo.', 'error');
       }
-    })
+    });
   }
+}
 
   cerrarModal(): void {
-    const modalElement = document.getElementById('nuevaMascotaModal')
+    const modalElement = document.getElementById('nuevaMascotaModal');
     if (modalElement) {
-      const modal = Modal.getInstance(modalElement)
-      modal?.hide()
+      const modal = Modal.getInstance(modalElement);
+      modal?.hide();
     }
-    this.resetFormulario()
+    this.resetFormulario();
   }
-
 
   // Metodo para resetear completamente el formulario
   public resetFormulario(): void {
-    this.mascotaSeleccionado = null
-    this.formMascota.reset()
+    this.mascotaSeleccionado = null;
+    this.formMascota.reset();
   }
 }

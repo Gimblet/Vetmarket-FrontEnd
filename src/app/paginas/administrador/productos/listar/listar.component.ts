@@ -14,7 +14,6 @@ import {ProductosService} from '../../../../services/Producto/productos.service'
 import {catchError} from 'rxjs';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatButton} from '@angular/material/button';
-import {Modal} from 'bootstrap';
 import {ToastrService} from 'ngx-toastr';
 import {RouterLink} from '@angular/router';
 
@@ -106,10 +105,9 @@ export class ListarComponent implements OnInit, AfterViewInit {
           throw err;
         })
       ).subscribe({
-      next: (resp) => {
+      next: () => {
         this.toastr.success('Producto Eliminado con exito', 'ESTADO');
         this.obtenerProductos();
-        new Modal(resp);
       }
     });
   }

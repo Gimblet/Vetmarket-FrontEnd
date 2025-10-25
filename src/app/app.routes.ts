@@ -13,6 +13,19 @@ export const routes: Routes = [
 
   // Auth
   { path: 'login', component: LoginComponent },
+  
+  // Registrar nuevo
+  {
+    path: 'registrar',
+    loadComponent: () => import('./auth/registrar/registrar.component')
+  },
+
+  // Usuario - Administrador 
+  {
+    path: 'usuarios',
+    loadComponent: () => import('./paginas/administrador/usuarios/usuarios.component')
+  },
+
   // Producto -- Producto sera la ruta inicial
   {
     path: 'producto',

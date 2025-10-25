@@ -1,0 +1,130 @@
+<div class="container mt-5 mb-5">
+  <div class="card shadow p-4 mx-auto" style="max-width: 600px;">
+    <h3 class="text-center mb-4">Crear Cuenta</h3>
+
+    <!-- Tipo de usuario -->
+    <div class="d-flex justify-content-center mb-3">
+      <button 
+        type="button" 
+        class="btn me-2"
+        [ngClass]="tipoUsuario === 'cliente' ? 'btn-primary' : 'btn-outline-primary'"
+        (click)="seleccionarTipo('cliente')">
+        Soy Cliente
+      </button>
+      <button 
+        type="button" 
+        class="btn"
+        [ngClass]="tipoUsuario === 'veterinario' ? 'btn-info text-white' : 'btn-outline-info'"
+        (click)="seleccionarTipo('veterinario')">
+        Soy Veterinario
+      </button>
+    </div>
+
+    <!-- Línea decorativa -->
+    <hr [ngStyle]="{
+      'border-top': '3px solid',
+      'border-color': tipoUsuario === 'cliente' ? '#0d6efd' : '#0dcaf0'
+    }">
+
+    <form [formGroup]="formUsuario" (ngSubmit)="registrarUsuario()">
+
+      <!-- Fila 1: Nombre y Apellido -->
+      <div class="row mb-3">
+        <div class="col">
+          <label>Nombre</label>
+          <input type="text" formControlName="nombre" 
+                 class="form-control" 
+                 [ngClass]="{'is-invalid': formUsuario.get('nombre')?.invalid && formUsuario.get('nombre')?.touched}"
+                 placeholder="Ingrese su nombre">
+          <div class="invalid-feedback">El nombre es obligatorio.</div>
+        </div>
+        <div class="col">
+          <label>Apellido</label>
+          <input type="text" formControlName="apellido" 
+                 class="form-control" 
+                 [ngClass]="{'is-invalid': formUsuario.get('apellido')?.invalid && formUsuario.get('apellido')?.touched}"
+                 placeholder="Ingrese su apellido">
+          <div class="invalid-feedback">El apellido es obligatorio.</div>
+        </div>
+      </div>
+
+      <!-- Fila 2: Documento y Teléfono -->
+      <div class="row mb-3">
+        <div class="col">
+          <label>Número de Documento</label>
+          <input type="text" formControlName="numeroDocumento" 
+                 class="form-control" 
+                 [ngClass]="{'is-invalid': formUsuario.get('numeroDocumento')?.invalid && formUsuario.get('numeroDocumento')?.touched}"
+                 placeholder="DNI o documento">
+          <div class="invalid-feedback">El documento es obligatorio.</div>
+        </div>
+        <div class="col">
+          <label>Teléfono</label>
+          <input type="text" formControlName="telefono" 
+                 class="form-control" 
+                 [ngClass]="{'is-invalid': formUsuario.get('telefono')?.invalid && formUsuario.get('telefono')?.touched}"
+                 placeholder="Número de contacto">
+          <div class="invalid-feedback">El teléfono es obligatorio.</div>
+        </div>
+      </div>
+
+      <!-- Fila 3: Correo y Dirección -->
+      <div class="row mb-3">
+        <div class="col">
+          <label>Correo</label>
+          <input type="email" formControlName="correo" 
+                 class="form-control" 
+                 [ngClass]="{'is-invalid': formUsuario.get('correo')?.invalid && formUsuario.get('correo')?.touched}"
+                 placeholder="ejemplo@correo.com">
+          <div class="invalid-feedback">Correo inválido o requerido.</div>
+        </div>
+        <div class="col">
+          <label>Dirección</label>
+          <input type="text" formControlName="direccion" 
+                 class="form-control" 
+                 [ngClass]="{'is-invalid': formUsuario.get('direccion')?.invalid && formUsuario.get('direccion')?.touched}"
+                 placeholder="Dirección">
+          <div class="invalid-feedback">La dirección es obligatoria.</div>
+        </div>
+      </div>
+
+      <!-- RUC solo para veterinario -->
+      <div class="mb-3" *ngIf="tipoUsuario === 'veterinario'">
+        <label>RUC</label>
+        <input type="text" formControlName="ruc" class="form-control" placeholder="Ingrese su RUC">
+      </div>
+
+      <!-- Fila 4: Usuario y Contraseña -->
+      <div class="row mb-4">
+        <div class="col">
+          <label>Nombre de usuario</label>
+          <input type="text" formControlName="username" 
+                 class="form-control" 
+                 [ngClass]="{'is-invalid': formUsuario.get('username')?.invalid && formUsuario.get('username')?.touched}"
+                 placeholder="Usuario para iniciar sesión">
+          <div class="invalid-feedback">El usuario es obligatorio.</div>
+        </div>
+        <div class="col">
+          <label>Contraseña</label>
+          <input type="password" formControlName="password" 
+                 class="form-control" 
+                 [ngClass]="{'is-invalid': formUsuario.get('password')?.invalid && formUsuario.get('password')?.touched}"
+                 placeholder="Contraseña">
+          <div class="invalid-feedback">La contraseña es obligatoria.</div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between mb-3">
+        <button type="button" class="btn btn-secondary w-50 me-2" (click)="volverLogin()">
+          ← Volver al Login
+        </button>
+        <button type="submit" class="btn w-50"
+                [ngClass]="tipoUsuario === 'cliente' ? 'btn-primary' : 'btn-info text-white'"
+                [disabled]="cargando">
+          {{ cargando ? 'Registrando...' : 'Registrar' }}
+        </button>
+      </div>
+      
+    </form>
+  </div>
+</div>

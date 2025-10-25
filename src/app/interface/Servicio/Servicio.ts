@@ -1,9 +1,11 @@
+import { DetalleServicio } from "../OrdenCompra/DetalleServicio";
+import { Usuario } from "../Usuario/Usuario";
+
 export interface ServicioRequestDTO {
   precio: number;
   nombre: string;
   descripcion: string;
   idUsuario: number;
-  // se deben agregar los atributos correspondientes
 }
 
 export interface ServicioResponseDTO {
@@ -15,4 +17,17 @@ export interface ServicioResponseDTO {
   nombreUsuario: string;
   apellido: string;
   telefono: string;
+}
+
+//Entidad del servicio
+export interface Servicio{
+  idServicio: number
+  precio: number
+  nombre: string
+  descripcion: string
+  img?: string
+
+  usuario?: Usuario
+
+  detServicio?: DetalleServicio
 }

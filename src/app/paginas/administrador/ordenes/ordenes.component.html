@@ -24,15 +24,17 @@
             <th>Cliente</th>
             <th>Fecha</th>
             <th>Total</th>
+            <th>Comision</th>
             <th class="text-center pe-4">Acciones</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let ord of ordenes">
             <td class="ps-4 fw-bold text-primary">{{ (ord.numeroOrden + '').padStart(5,'0') }}</td>
-            <td>{{ ord.usuario?.nombre || 'Cliente desconocido' }}</td>
+            <td>{{ ord.usuario.nombre || 'Cliente desconocido' }}</td>
             <td>{{ ord.fecha | date:'dd/MM/yyyy' }}</td>
             <td class="fw-semibold">S/ {{ ord.total | number:'1.2-2' }}</td>
+            <td class="fw-semibold">S/ {{ ord.comisionTotal | number:'1.2-2' }}</td>
             <td class="text-center pe-4">
               <button class="btn btn-outline-light btn-sm bg-primary bg-opacity-10 border-0 rounded-pill px-3"
                       (click)="verDetalle(ord)">
@@ -41,6 +43,13 @@
             </td>
           </tr>
         </tbody>
+        <tfoot>
+          <tr class="fw-bold text-end">
+            <td colspan="4" class="pe-3">Total de Ganancias:</td>
+            <td class="text-success">S/ {{ obtenerTotalGanancias() | number:'1.2-2' }}</td>
+            <td></td>
+          </tr>
+        </tfoot>
       </table>
     </div>
   </div>
@@ -67,6 +76,7 @@
                   <th>Cantidad</th>
                   <th>Precio Unitario</th>
                   <th>Total</th>
+                  <th>Comision</th>
                 </tr>
               </thead>
               <tbody>
@@ -75,6 +85,7 @@
                   <td>{{ det.cantidad }}</td>
                   <td>S/ {{ det.precio | number:'1.2-2' }}</td>
                   <td class="fw-semibold">S/ {{ det.total | number:'1.2-2' }}</td>
+                  <td class="fw-semibold">S/ {{ det.comision | number:'1.2-2' }}</td>
                 </tr>
               </tbody>
             </table>
@@ -90,14 +101,16 @@
                   <th>Mascota ID</th>
                   <th>Fecha Cita</th>
                   <th>Total</th>
+                  <th>Comision</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let det of detalleServicio">
                   <td>{{ det.nombre }}</td>
-                  <td>{{ det.mascota?.idMascota }}</td>
+                  <td>{{ det.mascota.idMascota }}</td>
                   <td>{{ det.fechaCita | date:'dd/MM/yyyy' }}</td>
                   <td class="fw-semibold">S/ {{ det.total | number:'1.2-2' }}</td>
+                  <td class="fw-semibold">S/ {{ det.comision | number:'1.2-2' }}</td>
                 </tr>
               </tbody>
             </table>

@@ -49,54 +49,81 @@ export default class VentasComponent {
     };
 
     const fechaActual = new Date().toLocaleDateString('es-PE', opcionesFecha);
-    const fechaVenta = new Date(venta.fecha).toLocaleDateString('es-PE', opcionesFecha);
-
-    const textoCondicional =
+    const fechaCita =
       venta.tipoItem.toLowerCase() === 'servicio'
-        ? '<p><strong>Fecha de la cita:</strong> ${fechaVenta}</p>'
-        : '';
+        ? new Date(venta.fecha).toLocaleDateString('es-PE', opcionesFecha)
+        : null;
+
+    const textoCondicional = fechaCita
+      ? `<p><strong>Fecha de cita:</strong> ${fechaCita}</p>`
+      : '';
+
+    // Cálculos de subtotal, comisión y total neto
+    const subtotal = venta.total;
+    const comision = subtotal * 0.15;
+    const totalNeto = subtotal - comision;
+
+    const descripcionExtra =
+      venta.tipoItem.toLowerCase() === 'servicio'
+        ? `<p>Este servicio forma parte de nuestra gama de atenciones veterinarias, como consultas médicas, vacunaciones, desparasitación y peluquería canina, diseñadas para el bienestar de su mascota.</p>`
+        : `<p>VetMarket también ofrece servicios veterinarios complementarios que garantizan el cuidado integral de su mascota.</p>`;
 
     const contenidoHTML = `
       <html>
         <head>
-          <title>Reporte de venta</title>
+          <title>Comprobante de Venta</title>
           <style>
-            body { font-family:'Segoe UI', Arial, sans-serif; margin: 50px; color: #333; font-size: 15px;line-height: 1.6;}
-            h1 { text-align: center; color: #2a6f97; font-size: 26px;margin-bottom: 10px;}
-            h2 { text-align: center; margin: 30px 0 25px 0; font-size: 20px;}
-            p { font-size: 16px; margin: 8px 0; }
-            .footer { text-align: center; margin-top: 40px; font-size: 13px; color: #777; }
+            body { font-family:'Segoe UI', Arial, sans-serif; margin: 40px; color: #333; font-size: 15px; line-height: 1.6;}
+            h1 { text-align: center; color: #1e6091; font-size: 26px; margin-bottom: 5px;}
+            h2 { text-align: center; color: #555; font-size: 18px; margin-top: 0;}
+            hr { border: none; border-top: 2px solid #ccc; margin: 20px 0; }
+            .section { margin: 20px 0; }
+            .total { text-align: right; font-size: 18px; font-weight: bold; color: #2a6f97; }
+            .footer { text-align: center; margin-top: 50px; font-size: 13px; color: #777; }
+            .resumen { text-align: right; margin-top: 15px; }
+            .resumen p { margin: 4px 0; font-size: 16px; }
           </style>
         </head>
         <body>
           <h1>VetMarket</h1>
+          <h2>Comprobante de Venta</h2>
           <p style="text-align:right;"><strong>Fecha de emisión:</strong> ${fechaActual}</p>
-          <h2>Reporte de venta de ${venta.tipoItem}</h2>
+          <hr>
 
-          <br><br><br>
-          <p>Por el valor de <strong>S/. ${venta.total}</strong></p>
-          <p>Se ha adquirido <strong>${venta.cantidad}</strong> ${venta.tipoItem.toLowerCase()}(s): 
-            "<strong>${venta.nombreItem}</strong>" por el valor unitario de 
-            <strong>S/. ${venta.precio}</strong>.</p>
-          ${textoCondicional}
-          <p><strong>Total pagado:</strong> S/. ${venta.total}</p>
-          
-          <br><br><br><br>
+          <div class="section">
+            ${textoCondicional}
+            <p><strong>Detalle del ${venta.tipoItem.toLowerCase()}:</strong> ${venta.nombreItem}</p>
+            <p><strong>Cantidad:</strong> ${venta.cantidad}</p>
+            <p><strong>Precio unitario:</strong> S/. ${venta.precio}</p>
+
+            <div class="resumen">
+              <p><strong>Subtotal:</strong> S/. ${subtotal.toFixed(2)}</p>
+              <p><strong>Comisión (15%):</strong> S/. ${comision.toFixed(2)}</p>
+              <p class="total">Total neto: S/. ${totalNeto.toFixed(2)}</p>
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="section">
+            <h3>Gracias por confiar en VetMarket 🐾</h3>
+            ${descripcionExtra}
+            <p>Recuerde que puede agendar próximas citas o adquirir más productos desde nuestro sistema web.</p>
+          </div>
+
           <div class="footer">
-            © ${new Date().getFullYear()} VetMarket — Sistema de Gestión de Ventas
+            © ${new Date().getFullYear()} VetMarket — Sistema de Gestión de Ventas y Servicios Veterinarios
           </div>
         </body>
       </html>
     `;
 
-    // Crear una nueva ventana para imprimir
     const ventana = window.open('', '_blank', 'width=800,height=600');
     if (ventana) {
       ventana.document.open();
       ventana.document.write(contenidoHTML);
       ventana.document.close();
 
-      // Esperar a que cargue y luego abrir diálogo de impresión
       ventana.onload = () => {
         ventana.print();
         ventana.close();
@@ -105,4 +132,6 @@ export default class VentasComponent {
       Swal.fire('Error', 'No se pudo abrir la ventana para generar el PDF', 'error');
     }
   }
+
+
 }
