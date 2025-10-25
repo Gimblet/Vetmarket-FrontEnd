@@ -45,4 +45,8 @@ return this.httpClient.get<ServicioResponseDTO>(`${this.apiUrl}/${id}`)
     return this.httpClient.put<ServicioResponseDTO>(`${this.apiUrl}/${id}`, formData);
   }
 
+  obtenerListaServiciosPorVeterinario(usuarioId: number): Observable<ServicioResponseDTO[]> {
+    return this.httpClient.get<ServicioResponseDTO[]>(`${this.apiUrl}/usuario/${usuarioId}`)
+  }
+
 }
