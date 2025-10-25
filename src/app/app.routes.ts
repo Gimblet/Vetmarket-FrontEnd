@@ -8,19 +8,20 @@ import {ActualizarComponent} from './paginas/administrador/productos/actualizar/
 import { ListaMascComponent } from './paginas/administrador/mascota/lista-masc/lista-masc.component';
 import { ListaServicioComponent } from './paginas/administrador/servicio/lista-servicio/lista-servicio.component';
 import { ListarComponent } from './paginas/administrador/productos/listar/listar.component';
+import { ListarServicioVeterinarioComponent } from './paginas/veterinario/servicio/listar-servicio-veterinario/listar-servicio-veterinario.component';
 
 export const routes: Routes = [
 
   // Auth
   { path: 'login', component: LoginComponent },
-  
+
   // Registrar nuevo
   {
     path: 'registrar',
     loadComponent: () => import('./auth/registrar/registrar.component')
   },
 
-  // Usuario - Administrador 
+  // Usuario - Administrador
   {
     path: 'usuarios',
     loadComponent: () => import('./paginas/administrador/usuarios/usuarios.component')
@@ -82,5 +83,7 @@ export const routes: Routes = [
   { path: 'mascotas', component: ListaMascComponent},
 
    // Listar servicios - Admin
-  { path: 'servicios', component: ListaServicioComponent}
+  { path: 'servicios', component: ListaServicioComponent},
+
+  { path: 'misservicios', component: ListarServicioVeterinarioComponent}
 ];
