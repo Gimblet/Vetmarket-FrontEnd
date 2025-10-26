@@ -44,45 +44,55 @@ export class CrearMascComponent implements OnInit, OnChanges {
       peso: ['', [Validators.required, Validators.min(0.1)]],
       especie: ['', [Validators.required]],
       raza: ['', [Validators.required]],
-      idUsuario: [{ value: '', disabled: true }, [Validators.required]],
+      // idUsuario: [{ value: '', disabled: true }, [Validators.required]],
+      idUsuario: ['', [Validators.required, Validators.min(1)]]
     });
   }
 
   ngOnInit(): void {
     this.rolUsuario = localStorage.getItem('rol');
+    this.inicializarFormulario()
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['mascotaSeleccionado']) {
-      const usuarioId = this.authService.getUserId();
-      const rol = this.rolUsuario;
+  if (changes['mascotaSeleccionado']) {
+    this.inicializarFormulario(); // Se ejecuta al cambiar de crear ↔ editar
+  }
+}
 
-      if (this.mascotaSeleccionado) {
-        // Editar: Cargar los datos en el formulario
-        this.formMascota.patchValue({
-          nombre: this.mascotaSeleccionado.nombre,
-          edad: this.mascotaSeleccionado.edad,
-          peso: this.mascotaSeleccionado.peso,
-          especie: this.mascotaSeleccionado.especie,
-          raza: this.mascotaSeleccionado.raza
-        });
+private inicializarFormulario(): void {
+  const usuarioId = this.authService.getUserId();
+  const rol = this.rolUsuario;
+  const idUsuarioControl = this.formMascota.get('idUsuario');
 
-        this.formMascota.get('idUsuario')?.disable();
-      } else {
-        // Crear: limpiar formulario
-        this.formMascota.reset();
+  if (this.mascotaSeleccionado) {
+    // Modo edición
+    idUsuarioControl?.clearValidators();
+    idUsuarioControl?.updateValueAndValidity();
 
-        if (rol == 'ADMIN') {
-          // ADMIN
-          this.formMascota.get('idUsuario')?.enable();
-        } else if (rol == 'CLIENTE' && usuarioId) {
-          // CLIENTE
-          this.formMascota.get('idUsuario')?.disable();
-          this.formMascota.patchValue({ idUsuario: +usuarioId });
-        }
-      }
+    this.formMascota.patchValue({
+      nombre: this.mascotaSeleccionado.nombre,
+      edad: this.mascotaSeleccionado.edad,
+      peso: this.mascotaSeleccionado.peso,
+      especie: this.mascotaSeleccionado.especie,
+      raza: this.mascotaSeleccionado.raza
+    });
+  } else {
+    // Modo creación
+    idUsuarioControl?.setValidators([Validators.required, Validators.min(1)]);
+    idUsuarioControl?.updateValueAndValidity();
+    this.formMascota.reset();
+
+    if (rol === 'ADMIN') {
+      idUsuarioControl?.enable();
+    } else if (rol === 'CLIENTE' && usuarioId) {
+      idUsuarioControl?.setValue(+usuarioId);
+      idUsuarioControl?.disable();
+    } else {
+      idUsuarioControl?.enable();
     }
   }
+}
 
   guardarMascota() {
   if (this.formMascota.invalid) {
@@ -151,6 +161,6 @@ export class CrearMascComponent implements OnInit, OnChanges {
   // Metodo para resetear completamente el formulario
   public resetFormulario(): void {
     this.mascotaSeleccionado = null;
-    this.formMascota.reset();
+    this.inicializarFormulario()
   }
 }
