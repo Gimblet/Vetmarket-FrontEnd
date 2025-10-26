@@ -50,7 +50,7 @@ export class OrdenCompraService {
   
   procesarOrdenCita(token: string, idUsuario: number, idServicio: number, idMascota: number, fechaCita: string): Observable<string> {
     const headers = this.getAuthHeaders(token);
-    return this.http.post(this.apiUrl+'/procesarCita', null, { headers, params:{idUsuario,idServicio,idMascota,fechaCita}, responseType: 'text'});
+    return this.http.post(this.apiUrl+'/ordenCompra/procesarCita', null, { headers, params:{idUsuario,idServicio,idMascota,fechaCita}, responseType: 'text'});
   }
 
 }

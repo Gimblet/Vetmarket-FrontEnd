@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class CitaService {
 
-  private apiUrl = 'http://localhost:8080/ServicioCita'; 
+  private apiUrl = 'http://localhost:8080/serviciocita'; 
 
   constructor(private http: HttpClient) { }
 
@@ -16,15 +16,9 @@ export class CitaService {
     idMascota: number, fechaCita: string):Observable<DetalleDto> {
     
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
+      'Authorization': 'Bearer '+token
     });
 
-    const params = new HttpParams()
-      .set('idUsuario', idUsuario.toString())
-      .set('idServicio', idServicio.toString())
-      .set('idMascota', idMascota.toString())
-      .set('fechaCita', fechaCita.toString()); 
-
-    return this.http.get<DetalleDto>(this.apiUrl+'cita/nuevo', { headers, params });
+    return this.http.get<DetalleDto>(this.apiUrl+'/cita/nuevo', { headers, params:{idUsuario,idServicio,idMascota,fechaCita} });
   }
 }

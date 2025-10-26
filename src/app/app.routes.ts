@@ -54,7 +54,7 @@ export const routes: Routes = [
   },
   // AgendarCita
   {
-    path: 'agendarCita',
+    path: 'agendarCita/:idServicio',
     loadComponent: () => import('./paginas/clientes/agendar-cita/agendar-cita.component')
   },
   // OrdenCompra - Cliente
@@ -96,6 +96,12 @@ export const routes: Routes = [
   // listar servicios - Cliente
   { path: 'servicio', component: ListarServicioClienteComponent},
   // Detalle de un servicio
-  { path: 'servicio/:id', component: DetalleServicioComponent }
+  { path: 'servicio/:id', component: DetalleServicioComponent },
+
+  // Carrito de Compra
+  {
+    path: 'carrito',
+    loadComponent: () => import('./paginas/clientes/carrito/carrito.component')
+  }
 
 ];

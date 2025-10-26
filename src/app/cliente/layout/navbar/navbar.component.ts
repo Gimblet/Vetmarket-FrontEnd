@@ -57,5 +57,15 @@ export class NavbarComponent {
     return 'bg-secondary';
   }
 
+  hoverLink(event: any) {
+    event.target.style.transform = 'scale(1.05)';
+    event.target.style.boxShadow = '0 4px 10px rgba(0,0,0,0.2)';
+  }
+
+  leaveLink(event: any) {
+    event.target.style.transform = 'scale(1)';
+    event.target.style.boxShadow = 'none';
+  }
+
 
 }

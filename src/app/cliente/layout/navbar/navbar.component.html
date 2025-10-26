@@ -2,28 +2,22 @@
 
   <!-- Sidebar -->
   <aside class="d-flex flex-column p-3 text-white" [ngClass]="sidebarClass()">
-    <a routerLink="/producto" class="d-flex align-items-center mb-3 text-white text-decoration-none">
+    <!-- Título sin enlace -->
+    <div class="d-flex align-items-center mb-3 text-white">
       <i class="bi bi-heart-pulse fs-3 me-2"></i>
       <span class="fs-4 fw-bold">VetMarket</span>
-    </a>
+    </div>
 
     <hr>
 
     <ul class="nav nav-pills flex-column mb-auto">
       <!-- No logueado -->
       <ng-container *ngIf="!rol">
-        <li class="nav-item">
-          <a routerLink="/servicio" class="nav-link text-white">Servicios</a>
-        </li>
-        <li class="nav-item">
-          <a routerLink="/producto" class="nav-link text-white">Productos</a>
-        </li>
+
       </ng-container>
 
       <!-- Cliente -->
       <ng-container *ngIf="rol==='CLIENTE'">
-        <li class="nav-item"><a routerLink="/servicio" class="nav-link text-white">Servicios</a></li>
-        <li class="nav-item"><a routerLink="/producto" class="nav-link text-white">Productos</a></li>
         <li class="nav-item"><a routerLink="/mismascotas" class="nav-link text-white">Mis Mascotas</a></li>
         <li class="nav-item"><a routerLink="/ordenCompra" class="nav-link text-white">Mis Compras</a></li>
         <li class="nav-item"><a routerLink="/carrito" class="nav-link text-white">Carrito</a></li>
@@ -56,24 +50,38 @@
     </div>
   </aside>
 
+
   <!-- Main content -->
   <div class="flex-grow-1 d-flex flex-column">
-    <nav class="navbar navbar-expand-lg" [ngClass]="navbarClass()">
-      <div class="container-fluid">
-        <span class="navbar-brand mb-0 h1 text-white">
-          Dashboard
-        </span>
+    <nav class="navbar navbar-expand-lg" [ngClass]="navbarClass()" style="padding: 1rem 0;">
+      <div class="container-fluid d-flex justify-content-center">
+
+        <!-- Enlaces centrados tipo tarjeta -->
+        <a routerLink="/producto" 
+          class="text-white fw-bold text-uppercase mx-4 px-4 py-2 border border-white rounded text-center"
+          style="font-size: 1.2rem; text-decoration: none; transition: all 0.2s;"
+          (mouseenter)="hoverLink($event)" (mouseleave)="leaveLink($event)">
+          PRODUCTOS
+        </a>
+
+        <a routerLink="/servicio" 
+          class="text-white fw-bold text-uppercase mx-4 px-4 py-2 border border-white rounded text-center"
+          style="font-size: 1.2rem; text-decoration: none; transition: all 0.2s;"
+          (mouseenter)="hoverLink($event)" (mouseleave)="leaveLink($event)">
+          SERVICIOS
+        </a>
+
       </div>
     </nav>
 
     <main class="flex-grow-1 bg-light overflow-auto">
       <router-outlet></router-outlet>
-
     </main>
 
     <footer class="text-center p-2 bg-white border-top">
       © {{ currentYear }} VetMarket
     </footer>
   </div>
+
 
 </div>

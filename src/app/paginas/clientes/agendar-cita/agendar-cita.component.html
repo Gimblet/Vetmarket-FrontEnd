@@ -1,70 +1,179 @@
-<div class="container mt-4">
-  <h2 class="mb-4">Agendar Cita</h2>
-  
-  <div class="row">
-    
-    <div class="col-md-7 mb-3">
-      <div class="card h-100">
-        <div class="card-body">
-          <h5 class="card-title">Datos del Cliente</h5>
-          <p class="card-text"><strong>ID Usuario:</strong> {{ idUsuario }}</p>
-          <p class="card-text" *ngIf="usuario"><strong>Nombre:</strong> {{ usuario.nombre }}</p>
-          </div>
+<div class="container mt-5 mb-5">
+  <!-- Título -->
+  <h2 class="text-center mb-4 fw-bold text-primary">Agendar Cita</h2>
+
+  <!-- Sección: Datos de Usuario y Servicio -->
+  <div class="row mb-4 border rounded shadow-sm bg-light p-4">
+    <!-- Usuario -->
+    <div class="col-md-6 border-end">
+      <h5 class="text-secondary fw-semibold mb-3">Datos del Usuario</h5>
+
+      <div *ngIf="usuario; else cargandoUsuario">
+        <p><strong>Nombre:</strong> {{ usuario.nombre }} {{ usuario.apellido }}</p>
+        <p><strong>Teléfono:</strong> {{ usuario.telefono || 'No registrado' }}</p>
+        <p><strong>Dirección:</strong> {{ usuario.direccion || 'No registrada' }}</p>
       </div>
-    </div>
-    
-    <div class="col-md-5 mb-3">
-      <div class="card h-100">
-        <div class="card-body">
-          <h5 class="card-title">Detalles del Servicio</h5>
-          <p class="card-text"><strong>ID Servicio:</strong> {{ idServicio }}</p>
-          </div>
-      </div>
+
+      <ng-template #cargandoUsuario>
+        <p class="text-muted fst-italic">Cargando información del usuario...</p>
+      </ng-template>
     </div>
 
+    <!-- Servicio -->
+    <div class="col-md-6">
+      <h5 class="text-secondary fw-semibold mb-3">Datos del Servicio</h5>
+
+      <div *ngIf="idServicio > 0; else sinServicio">
+        <p><strong>Nombre:</strong> {{ servicio?.nombre || 'Pendiente' }}</p>
+        <p><strong>Descripción:</strong> {{ servicio?.descripcion || 'Pendiente' }}</p>
+        <p><strong>Precio:</strong> S/ {{ servicio?.precio?.toFixed(2) || '---' }}</p>
+      </div>
+
+      <ng-template #sinServicio>
+        <p class="text-muted fst-italic">Aún no se ha seleccionado un servicio.</p>
+      </ng-template>
+    </div>
   </div>
 
-  <div class="mb-4">
-    <button class="btn btn-outline-primary" (click)="seleccionarMascota()">
-      Seleccionar Mascota Existente (Opcional)
+  <!-- Botón para listar mascotas -->
+  <div class="text-center mb-3">
+    <button class="btn btn-outline-primary px-4" (click)="listarMascotas()">
+      <i class="bi bi-search-heart me-1"></i> Seleccionar una de mis mascotas
     </button>
   </div>
-  
-  <div class="card p-4">
-    <h4 class="mb-3">Datos de la Mascota y Fecha de Cita</h4>
-    
-    <div class="row">
-        <div class="col-md-6 mb-3">
-            <label for="mascotaNombre" class="form-label">Nombre de la Mascota:</label>
-            <input type="text" class="form-control" id="mascotaNombre" [(ngModel)]="mascotaForm.nombre" name="mascotaNombre" required>
-        </div>
-        <div class="col-md-6 mb-3">
-            <label for="mascotaEspecie" class="form-label">Especie:</label>
-            <input type="text" class="form-control" id="mascotaEspecie" [(ngModel)]="mascotaForm.especie" name="mascotaEspecie">
-        </div>
-        <div class="col-md-4 mb-3">
-            <label for="mascotaEdad" class="form-label">Edad (años):</label>
-            <input type="number" class="form-control" id="mascotaEdad" [(ngModel)]="mascotaForm.edad" name="mascotaEdad">
-        </div>
-        <div class="col-md-4 mb-3">
-            <label for="mascotaPeso" class="form-label">Peso (kg):</label>
-            <input type="number" class="form-control" id="mascotaPeso" [(ngModel)]="mascotaForm.peso" name="mascotaPeso">
-        </div>
-        
-        <div class="col-md-4 mb-3">
-            <label for="fechaCita" class="form-label">Fecha de Cita:</label>
-            <input type="date" class="form-control" id="fechaCita" [min]="minDate" [(ngModel)]="fechaCitaString" name="fechaCitaString" required>
-        </div>
 
+  <!-- Lista de Mascotas -->
+  <div *ngIf="mascota.length > 0; else sinMascotas" class="row justify-content-center mb-4">
+    <div
+      *ngFor="let m of mascota"
+      class="col-md-3 col-sm-6 mb-3"
+      (click)="mascotaSeleccionada(m)"
+    >
+      <div
+        class="card text-center shadow-sm hover-card"
+        [ngClass]="{ 'border-primary border-2': idMascota === m.idMascota }"
+        style="cursor: pointer;"
+      >
+        <div class="card-body">
+          <h6 class="card-title text-primary mb-2">{{ m.nombre }}</h6>
+          <p class="card-text small text-muted">
+            <strong>Especie:</strong> {{ m.especie }}<br />
+            <strong>Edad:</strong> {{ m.edad }} años<br />
+            <strong>Peso:</strong> {{ m.peso }} kg
+          </p>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <div class="d-grid gap-2 mt-3">
-      <button class="btn btn-success btn-lg" 
-              [disabled]="!fechaCitaString || !mascotaForm.nombre"
-              (click)="agendarCita()">
-        Agendar Cita
+  <ng-template #sinMascotas>
+    <div class="text-center text-muted fst-italic mb-4">
+      Aún no tienes mascotas registradas. Registra una nueva abajo 🐾
+    </div>
+  </ng-template>
+
+  <!-- Formulario Mascota + Fecha -->
+  <div class="card shadow p-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="text-secondary mb-0">Datos de la Mascota</h5>
+      <button type="button" class="btn btn-sm btn-outline-danger" (click)="vaciarFormulario()">
+        <i class="bi bi-x-circle me-1"></i> Vaciar Formulario
       </button>
     </div>
 
+
+    <h5 class="text-center text-secondary mb-3">Datos de la Mascota</h5>
+
+    <form #formMascota="ngForm">
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Nombre</label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="mascotaForm.nombre"
+            name="nombre"
+            required
+          />
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Especie</label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="mascotaForm.especie"
+            name="especie"
+            required
+          />
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label class="form-label">Edad</label>
+          <input
+            type="number"
+            min="0"
+            class="form-control"
+            [(ngModel)]="mascotaForm.edad"
+            name="edad"
+          />
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label class="form-label">Peso (kg)</label>
+          <input
+            type="number"
+            min="0"
+            class="form-control"
+            [(ngModel)]="mascotaForm.peso"
+            name="peso"
+          />
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label class="form-label">Raza</label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="mascotaForm.raza"
+            name="raza"
+          />
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Fecha de cita</label>
+          <input
+            type="date"
+            class="form-control"
+            [(ngModel)]="fechaCitaString"
+            name="fechaCita"
+            [min]="minDate"
+            (change)="formatearFechaVisual()"
+            required
+          />
+          <small class="text-muted">{{ fechaCitaVisual }}</small>
+        </div>
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="row mt-3 mb-3">
+      <div class="col-md-6 text-center">
+        <button type="button" class="btn btn-primary px-4 w-100" (click)="crearMascota()" [disabled]="idMascota > 0">
+          <i class="bi bi-plus-circle me-1"></i> Registrar Mascota
+        </button>
+      </div>
+      <div class="col-md-6 text-center">
+        <button type="button" class="btn btn-warning px-4 w-100" (click)="actualizarMascota()">
+          <i class="bi bi-pencil-square me-1"></i> Actualizar Mascota
+        </button>
+      </div>
+    </div>
+
+    <div class="text-center mt-4">
+      <button type="button" class="btn btn-success px-5" (click)="agendarCita()">
+        <i class="bi bi-calendar-check me-1"></i> Generar Orden
+      </button>
+    </div>
+    </form>
   </div>
 </div>
