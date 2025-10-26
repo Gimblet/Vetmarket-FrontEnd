@@ -43,13 +43,13 @@ export class LoginComponent {
 
         if (rol.includes('ADMIN')) {
           this.toastr.success('Bienvenido Administrador', 'Éxito')
-          this.router.navigate(['/'])
+          this.router.navigate(['/producto'])
         } else if (rol.includes('CLIENTE')) {
           this.toastr.success('Bienvenido Cliente', 'Éxito')
-          this.router.navigate(['/'])
+          this.router.navigate(['/producto'])
         } else if (rol.includes('VETERINARIO')) {
           this.toastr.success('Bienvenido Veterinario', 'Éxito')
-          this.router.navigate(['/'])
+          this.router.navigate(['/producto'])
         } else {
           this.toastr.warning('Ingresa correctamente tus credenciales', 'ROL no reconocido')
         }

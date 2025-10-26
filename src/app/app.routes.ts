@@ -14,6 +14,8 @@ import { ListarServicioClienteComponent } from './paginas/clientes/servicio/list
 import { DetalleServicioComponent } from './paginas/clientes/servicio/detalle-servicio/detalle-servicio.component';
 
 export const routes: Routes = [
+  
+  { path: '', redirectTo: '/producto', pathMatch: 'full' },
 
   // Auth
   { path: 'login', component: LoginComponent },
