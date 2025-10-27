@@ -15,7 +15,7 @@
     @if (listaProductos().length === 1 && listaProductos()[0].nombre === "ERROR") {
       <h4 class="alert alert-danger">Ocurrio un problema, intentelo de nuevo mas tarde</h4>
     } @else {
-      @defer (when listaProductos().length >= 4) {
+      @defer (when listaProductos() != null) {
         <mat-card appearance="outlined"
                   *ngFor="let producto of listaProductos()
                 | slice: lowIndex: highIndex">
