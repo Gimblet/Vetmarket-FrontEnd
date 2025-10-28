@@ -2,13 +2,14 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DetalleDto } from '../interface/ServicioCita/DetalleDto';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CitaService {
 
-  private apiUrl = 'http://localhost:8080/serviciocita'; 
+  private apiUrl = environment.gatewayUrl+'/serviciocita'; 
 
   constructor(private http: HttpClient) { }
 

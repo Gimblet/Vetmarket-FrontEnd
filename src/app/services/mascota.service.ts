@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Mascota, MascotaCreateRequest, MascotaUpdateRequest } from '../interface/Mascota/Mascota';
+import { environment } from '../../environments/environment';
 
 
 @Injectable({
@@ -9,7 +10,7 @@ import { Mascota, MascotaCreateRequest, MascotaUpdateRequest } from '../interfac
 })
 export class MascotaService {
 
-  private apiUrl = 'http://localhost:8080/mascota/mascotas'
+  private apiUrl = environment.gatewayUrl+'/mascota/mascotas'
   constructor(private httpClient: HttpClient) { }
 
   obtenerListaMascotas(): Observable<Mascota[]> {

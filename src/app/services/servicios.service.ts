@@ -2,12 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ServicioRequestDTO, ServicioResponseDTO } from '../interface/Servicio/Servicio';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ServiciosService {
-private apiUrl='http://localhost:8080/servicio/servicios'
+private apiUrl=environment.gatewayUrl+'/servicio/servicios'
   constructor(private httpClient:HttpClient) { }
 
   obtenerListaServicios(): Observable<ServicioResponseDTO[]>{

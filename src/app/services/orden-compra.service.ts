@@ -3,14 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Orden } from '../interface/OrdenCompra/Orden';
 import { DetalleVentaDTO } from '../interface/OrdenCompra/DetalleVentaDto';
-import { DetalleDto } from '../interface/ServicioCita/DetalleDto';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrdenCompraService {
 
-  private apiUrl = 'http://localhost:8080/ordencompra';
+  private apiUrl = environment.gatewayUrl+'/ordencompra';
 
   constructor(private http: HttpClient) { }
 

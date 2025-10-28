@@ -3,12 +3,13 @@ import {Producto} from '../../interface/producto/Producto';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {FormGroup} from '@angular/forms';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductosService {
-  private API = 'http://localhost:8080/producto/producto';
+  private API = environment.gatewayUrl+'/producto/producto';
 
   constructor(private httpClient: HttpClient) {
   }

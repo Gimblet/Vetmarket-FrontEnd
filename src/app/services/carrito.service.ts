@@ -3,13 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CarritoCompra } from '../interface/CarritoCompras/CarritoCompra';
 import { DetalleDto } from '../interface/ServicioCita/DetalleDto';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarritoService {
 
-  private apiUrl = 'http://localhost:8080/carritocompra/carrito';
+  private apiUrl = environment.gatewayUrl+'/carritocompra/carrito';
   constructor(private http: HttpClient) { }
 
   private getAuthHeaders(token: string): HttpHeaders {
