@@ -1,30 +1,36 @@
 import {Injectable} from '@angular/core';
 import {Producto} from '../../interface/producto/Producto';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {map, Observable} from 'rxjs';
 import {FormGroup} from '@angular/forms';
-import { environment } from '../../../environments/environment';
+import {environment} from '../../../environments/environment';
+import {apiResponse} from '../../interface/ApiResponse/api-response';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductosService {
-  private API = environment.gatewayUrl+'/producto/producto';
+  private API = environment.gatewayUrl + '/producto/producto';
 
   constructor(private httpClient: HttpClient) {
   }
 
-  public obtenerProductos(): Observable<any> {
-    return this.httpClient.get<Array<Producto>>(this.API + '/listar');
+  public obtenerProductos(): Observable<Array<Producto>> {
+    return this.httpClient
+      .get<apiResponse>(this.API + '/listar')
+      .pipe(map((res) => (res?.data as Array<Producto>) ?? []));
   }
 
   public obtenerProductosPorNombre(nombreProducto: string): Observable<any> {
-    return this.httpClient.get<Array<Producto>>(this.API + '/buscar', {params: {nombre: nombreProducto}});
+    return this.httpClient
+      .get<apiResponse>(this.API + '/buscar', {params: {nombre: nombreProducto}})
+      .pipe(map((res) => (res?.data as Array<Producto>) ?? []));
   }
 
   public obtenerProductosPorVeterinario(id: number | null | string): Observable<any> {
     // @ts-ignore
-    return this.httpClient.get<Array<Producto>>(this.API + '/buscar', {params: {veterinario: id.toString()}});
+    return this.httpClient.get<apiResponse>(this.API + '/buscar', {params: {veterinario: id.toString()}})
+      .pipe(map((res) => (res?.data as Array<Producto>) ?? []));
   }
 
   public obtenerImagenProducto(id: number): Observable<any> {
@@ -32,7 +38,9 @@ export class ProductosService {
   }
 
   public obtenerProductoPorID(id: number): Observable<any> {
-    return this.httpClient.get(this.API + '/buscar', {params: {id: id.toString()}});
+    return this.httpClient
+      .get<apiResponse>(this.API + '/buscar', {params: {id: id.toString()}})
+      .pipe(map((res) => (res?.data as Producto) ?? []));
   }
 
   public guardarProducto(producto: FormGroup, file: File): Observable<any> {
@@ -66,8 +74,7 @@ export class ProductosService {
       formData.append('imagen', file);
     }
     return this.httpClient.put(this.API + '/actualizar', formData, {
-      params: {id: productoEntity.idProducto},
-      responseType: 'text'
+      params: {id: productoEntity.idProducto}
     });
   }
 
