@@ -112,7 +112,7 @@
             </div>
 
             <!-- ID Usuario -->
-<div class="col-md-6" *ngIf="!mascotaSeleccionado">
+<!-- <div class="col-md-6" *ngIf="!mascotaSeleccionado">
   <label for="idUsuario" class="form-label">
     {{ rolUsuario === 'ADMIN' ? 'ID del Cliente' : 'Tu ID de Usuario' }}
   </label>
@@ -128,6 +128,40 @@
     class="text-danger"
   >
     El ID de usuario es obligatorio.
+  </div>
+</div> -->
+<!-- ID Usuario (solo en modo creación) -->
+<div class="col-md-6" *ngIf="!mascotaSeleccionado">
+  <label for="idUsuario" class="form-label">
+    {{ rolUsuario === 'ADMIN' ? 'Seleccionar Cliente' : 'Tu Usuario' }}
+  </label>
+
+  <!-- Para ADMIN: combo de clientes -->
+  <select
+    *ngIf="rolUsuario === 'ADMIN'"
+    id="idUsuario"
+    formControlName="idUsuario"
+    class="form-select"
+    [class.is-invalid]="formMascota.get('idUsuario')?.invalid && formMascota.get('idUsuario')?.touched"
+  >
+    <option value="">-- Selecciona un cliente --</option>
+    <option *ngFor="let cliente of clientes" [value]="cliente.idUsuario">
+      {{ cliente.nombre }} {{ cliente.apellido }}
+      <span *ngIf="cliente.numeroDocumento"> (DNI: {{ cliente.numeroDocumento }})</span>
+    </option>
+  </select>
+
+  <!-- Mensaje de error para el combo -->
+  <div
+    *ngIf="rolUsuario === 'ADMIN' && formMascota.get('idUsuario')?.invalid && formMascota.get('idUsuario')?.touched"
+    class="text-danger"
+  >
+    Debes seleccionar un cliente.
+  </div>
+
+  <!-- Para CLIENTE: mostrar su nombre (más amigable que solo el ID) -->
+  <div *ngIf="rolUsuario !== 'ADMIN'" class="form-control bg-light" disabled>
+    {{ nombreClienteLogueado }}
   </div>
 </div>
 
