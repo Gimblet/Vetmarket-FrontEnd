@@ -19,6 +19,8 @@ import { MascotaService } from '../../../../services/mascota.service';
 import Swal from 'sweetalert2';
 import { Modal } from 'bootstrap';
 import { AuthService } from '../../../../services/auth.service';
+import { UsuarioService } from '../../../../services/usuario.service';
+import { Usuario } from '../../../../interface/Usuario/Usuario';
 
 @Component({
   selector: 'app-crear-masc',
@@ -33,10 +35,14 @@ export class CrearMascComponent implements OnInit, OnChanges {
   formMascota: FormGroup;
   rolUsuario: string | null = null;
 
+  clientes: Usuario[] = []
+  nombreClienteLogueado: string = ''
+
   constructor(
     private fb: FormBuilder,
     private mascotaService: MascotaService,
-    private authService: AuthService
+    private authService: AuthService,
+    private usuarioService: UsuarioService
   ) {
     this.formMascota = this.fb.group({
       nombre: ['', [Validators.required]],
@@ -45,13 +51,26 @@ export class CrearMascComponent implements OnInit, OnChanges {
       especie: ['', [Validators.required]],
       raza: ['', [Validators.required]],
       // idUsuario: [{ value: '', disabled: true }, [Validators.required]],
-      idUsuario: ['', [Validators.required, Validators.min(1)]]
+      idUsuario: ['', [Validators.required]]
     });
   }
 
   ngOnInit(): void {
     this.rolUsuario = localStorage.getItem('rol');
     this.inicializarFormulario()
+
+      // Cargar clientes solo si es ADMIN y estamos en modo creación
+    if (this.rolUsuario === 'ADMIN' && !this.mascotaSeleccionado) {
+      this.usuarioService.obtenerClientes().subscribe({
+        next: (clientes) => {
+          this.clientes = clientes;
+        },
+        error: (err) => {
+          console.error('Error al cargar clientes:', err);
+          Swal.fire('Error', 'No se pudieron cargar los clientes.', 'error');
+        }
+      });
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -88,6 +107,17 @@ private inicializarFormulario(): void {
     } else if (rol === 'CLIENTE' && usuarioId) {
       idUsuarioControl?.setValue(+usuarioId);
       idUsuarioControl?.disable();
+
+      // Obtener y mostrar el nombre del cliente logueado
+      this.usuarioService.buscarPorId(+usuarioId).subscribe({
+        next: (usuario) => {
+          this.nombreClienteLogueado = `${usuario.nombre} ${usuario.apellido}`;
+        },
+        error: (err) => {
+          console.error('Error al cargar datos del usuario:', err);
+          this.nombreClienteLogueado = 'Usuario desconocido';
+        }
+      });
     } else {
       idUsuarioControl?.enable();
     }

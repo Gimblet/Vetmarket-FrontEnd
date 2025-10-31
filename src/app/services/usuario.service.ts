@@ -51,7 +51,18 @@ export class UsuarioService {
   }
 
   // Buscar usuarios por rol
+  // buscarPorRol(idRol: number): Observable<Usuario[]> {
+  //   return this.http.get<Usuario[]>(this.baseUrl+'/rol?idRol='+idRol);
+  // }
+
+  // Buscar usuarios por rol (1=ADMIN, 2=VETERINARIO, 3=CLIENTE)
   buscarPorRol(idRol: number): Observable<Usuario[]> {
-    return this.http.get<Usuario[]>(this.baseUrl+'/rol?idRol='+idRol);
+    return this.http
+      .get<apiResponse>(`${this.baseUrl}/rol/${idRol}`) 
+      .pipe(map(res => (res?.data as Usuario[]) ?? []));
+  }
+
+  obtenerClientes(): Observable<Usuario[]> {
+    return this.buscarPorRol(3); // 3 = CLIENTE
   }
 }
