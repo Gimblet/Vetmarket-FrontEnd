@@ -21,6 +21,10 @@ export class ProductosService {
       .pipe(map((res) => (res?.data as Array<Producto>) ?? []));
   }
 
+  public obtenerProductosJSON(): Observable<any> {
+    return this.httpClient.get(this.API + '/listarJSON')
+  }
+
   public obtenerProductosPorNombre(nombreProducto: string): Observable<any> {
     return this.httpClient
       .get<apiResponse>(this.API + '/buscar', {params: {nombre: nombreProducto}})

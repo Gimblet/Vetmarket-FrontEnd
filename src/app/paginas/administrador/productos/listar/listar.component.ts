@@ -112,4 +112,18 @@ export class ListarComponent implements OnInit, AfterViewInit {
     });
   }
 
+  exportarJSON() {
+    this.productoService.obtenerProductosJSON()
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          throw err;
+        })
+      ).subscribe({
+      next: () => {
+        this.toastr.success('Lista Exportada a JSON', 'EXITO');
+        this.obtenerProductos();
+      }
+    });
+  }
 }
