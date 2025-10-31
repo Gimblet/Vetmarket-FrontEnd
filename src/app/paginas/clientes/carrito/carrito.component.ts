@@ -1,12 +1,13 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { CarritoCompra } from '../../../interface/CarritoCompras/CarritoCompra';
-import { CarritoService } from '../../../services/carrito.service';
-import { OrdenCompraService } from '../../../services/orden-compra.service';
-import { AuthService } from '../../../services/auth.service';
-import { Router } from '@angular/router';
+import {CommonModule} from '@angular/common';
+import {Component} from '@angular/core';
+import {CarritoCompra} from '../../../interface/CarritoCompras/CarritoCompra';
+import {CarritoService} from '../../../services/carrito.service';
+import {OrdenCompraService} from '../../../services/orden-compra.service';
+import {AuthService} from '../../../services/auth.service';
+import {Router} from '@angular/router';
 import Swal from 'sweetalert2';
-import { DetalleDto } from '../../../interface/ServicioCita/DetalleDto';
+import {DetalleDto} from '../../../interface/ServicioCita/DetalleDto';
+import {catchError} from 'rxjs';
 
 @Component({
   selector: 'app-carrito',
@@ -26,7 +27,8 @@ export default class CarritoComponent {
     private ordenService: OrdenCompraService,
     private auth: AuthService,
     private router: Router
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.token = this.auth.getToken();
@@ -40,14 +42,20 @@ export default class CarritoComponent {
   }
 
   obtenerCarrito(): void {
-    this.carritoService.obtenerCarrito(this.token!, this.idUsuario!).subscribe({
-      next: data => {
-        this.carrito = data;
+    this.carritoService.obtenerCarrito(this.token!, this.idUsuario!)
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          Swal.fire('Error', 'No se pudo obtener el carrito', 'error')
+          throw err;
+        })
+      )
+      .subscribe((detalle: DetalleDto[]) => {
+        this.carrito = detalle;
         this.calcularTotal();
-      },
-      error: () => Swal.fire('Error', 'No se pudo obtener el carrito', 'error')
-    });
+      });
   }
+
 
   calcularTotal(): void {
     this.totalGeneral = this.carrito.reduce((acc, item) => acc + (item.total || 0), 0);
